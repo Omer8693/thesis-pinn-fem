@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>References — NAS-PINNs</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FFFFFF;--surface:#F6F8FA;--border:#D0D7DE;
+  --surface2:#EAEEF2;--txt:#24292F;--txt-mid:#57606A;
+  --txt-dim:#8C959F;--blue:#0969DA;--orange:#BC4C00;
+  --green:#1A7F37;--purple:#8250DF;--red:#CF222E
+}
+body{background:var(--bg);color:var(--txt);font-family:'Segoe UI','Trebuchet MS',sans-serif;font-size:15px;line-height:1.6;min-height:100vh}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:.7rem 2rem;display:flex;align-items:center;gap:1.5rem;position:sticky;top:0;z-index:100}
+.topbar a{color:var(--blue);text-decoration:none;font-size:.88rem;font-weight:500}
+.topbar a:hover{text-decoration:underline}
+.topbar .sep{color:var(--txt-dim)}
+h1{font-size:1.7rem;font-weight:700;color:var(--txt);margin-bottom:.3rem}
+.container{max-width:860px;margin:0 auto;padding:2.5rem 2rem}
+.sec-title{font-size:.72rem;font-weight:700;color:var(--txt-mid);letter-spacing:1.2px;text-transform:uppercase;margin:1.8rem 0 .6rem;padding-bottom:.3rem;border-bottom:1px solid var(--border)}
+.ref-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.95rem 1.1rem;margin-bottom:10px}
+.ref-num{display:inline-block;min-width:2rem;font-size:.75rem;font-weight:700;color:var(--txt-dim);vertical-align:top;padding-top:.05rem}
+.ref-body{display:inline-block;width:calc(100% - 2.5rem);vertical-align:top}
+.ref-title{font-size:.88rem;font-weight:600;color:var(--txt);margin-bottom:3px}
+.ref-meta{font-size:.78rem;color:var(--txt-mid);line-height:1.5}
+.ref-tag{display:inline-block;margin-top:6px;margin-right:5px;padding:2px 9px;border-radius:4px;font-size:.68rem;background:rgba(9,105,218,.08);color:var(--blue);border:1px solid rgba(9,105,218,.2);font-weight:500}
+footer{text-align:center;padding:2rem;font-size:.8rem;color:var(--txt-dim);border-top:1px solid var(--border);margin-top:3rem}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html">&#8592; Back to Project Home</a>
+  <span class="sep">/</span>
+  <span style="color:var(--txt-mid);font-size:.88rem">References</span>
+</div>
+
+<div class="container">
+  <h1>References</h1>
+  <p style="color:var(--txt-mid);margin-top:.4rem;font-size:.9rem">All literature cited in or directly relevant to the NAS-PINNs thesis project. Organised by topic.</p>
+
+  <div class="sec-title">Primary Work</div>
+
+  <div class="ref-card">
+    <span class="ref-num">[1]</span>
+    <span class="ref-body">
+      <div class="ref-title">Mortensen, Noorsumar, Fjær, Babaei, Drønen — Neural Architecture Search for Physics-Informed Neural Networks in FEM Acceleration</div>
+      <div class="ref-meta">International Journal of Advanced Manufacturing Technology &middot; 2026 &middot; DOI: 10.1007/s00170-026-17515-w</div>
+      <span class="ref-tag">Primary reference</span>
+    </span>
+  </div>
+
+  <div class="sec-title">PINN Foundations</div>
+
+  <div class="ref-card">
+    <span class="ref-num">[2]</span>
+    <span class="ref-body">
+      <div class="ref-title">Raissi, M., Perdikaris, P., Karniadakis, G.E. — Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear PDEs</div>
+      <div class="ref-meta">Journal of Computational Physics &middot; vol. 378 &middot; pp. 686–707 &middot; 2019<br>
+      <em>The foundational PINN paper. Introduces the loss decomposition L = L_pde + L_bc + L_ic and demonstrates application to Burgers, Schrödinger, and Navier–Stokes equations.</em></div>
+      <span class="ref-tag">PINN foundation</span>
+    </span>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-num">[3]</span>
+    <span class="ref-body">
+      <div class="ref-title">Lagaris, I.E., Likas, A., Fotiadis, D.I. — Artificial neural networks for solving ordinary and partial differential equations</div>
+      <div class="ref-meta">IEEE Transactions on Neural Networks &middot; vol. 9, no. 5 &middot; pp. 987–1000 &middot; 1998<br>
+      <em>Precursor to PINNs — first systematic use of NNs as PDE solvers by encoding BCs into the network ansatz.</em></div>
+      <span class="ref-tag">Early physics-NN</span>
+    </span>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-num">[4]</span>
+    <span class="ref-body">
+      <div class="ref-title">Karniadakis, G.E., Kevrekidis, I.G., Lu, L., Perdikaris, P., Wang, S., Yang, L. — Physics-informed machine learning</div>
+      <div class="ref-meta">Nature Reviews Physics &middot; vol. 3 &middot; pp. 422–440 &middot; 2021<br>
+      <em>Comprehensive review of physics-constrained ML methods, covering PINNs, DeepONet, and hybrid approaches. Reference for the broader field context.</em></div>
+      <span class="ref-tag">PINN review</span>
+    </span>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-num">[5]</span>
+    <span class="ref-body">
+      <div class="ref-title">Wang, S., Yu, X., Perdikaris, P. — When and why PINNs fail to train: A neural tangent kernel perspective</div>
+      <div class="ref-meta">Journal of Computational Physics &middot; vol. 449 &middot; 2022<br>
+      <em>Explains PINN training failures through the lens of NTK theory. Motivates loss balancing strategies that improve convergence for stiff PDEs.</em></div>
+      <span class="ref-tag">PINN training analysis</span>
+    </span>
+  </div>
+
+  <div class="sec-title">Thermal &amp; Manufacturing Applications</div>
+
+  <div class="ref-card">
+    <span class="ref-num">[6]</span>
+    <span class="ref-body">
+      <div class="ref-title">MCO-PINN — Multi-constrained optimisation PINN for 3D transient temperature in large-scale aluminium alloy workpieces</div>
+      <div class="ref-meta">Sensors &middot; 2023 &middot; Full 3D industrial quenching simulation (31 m workpiece). Provides architecture and training baseline for Level 8 of this thesis. No NAS component.</div>
+      <span class="ref-tag">3D aluminium quenching</span>
+    </span>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-num">[7]</span>
+    <span class="ref-body">
+      <div class="ref-title">Physics-Informed Fully Convolutional Networks (PIFCN) for heat conduction in composite structures</div>
+      <div class="ref-meta">ASME Journal of Computing and Information Science in Engineering &middot; November 2024<br>
+      <em>CNN-based PINN outperforms MLP for spatially structured heat conduction. Highlights the architecture-problem fit question that motivates NAS.</em></div>
+      <span class="ref-tag">CNN-PINN</span>
+    </span>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-num">[8]</span>
+    <span class="ref-body">
+      <div class="ref-title">Physics-informed CNN for heat source layout optimisation without labeled data</div>
+      <div class="ref-meta">Engineering Applications of Artificial Intelligence &middot; 2022 &middot; arXiv:2109.12482<br>
+      <em>Demonstrates CNN-PINNs as surrogate models for thermal design optimisation — a direction complementary to this work.</em></div>
+      <span class="ref-tag">CNN-PINN surrogate</span>
+    </span>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-num">[9]</span>
+    <span class="ref-body">
+      <div class="ref-title">Fjær, E.G. et al. — Distortion and residual stress in aluminium castings: FEM simulation and CMM validation</div>
+      <div class="ref-meta">Light Metals &middot; TMS Proceedings &middot; 2004<br>
+      <em>Source of the 47-point CMM measurement benchmark used in Level 4 to validate PINN-predicted thermal distortions of A356 aluminium castings.</em></div>
+      <span class="ref-tag">CMM benchmark</span>
+    </span>
+  </div>
+
+  <div class="sec-title">Neural Architecture Search</div>
+
+  <div class="ref-card">
+    <span class="ref-num">[10]</span>
+    <span class="ref-body">
+      <div class="ref-title">Bergstra, J., Bardenet, R., Bengio, Y., Kégl, B. — Algorithms for Hyper-Parameter Optimisation (Tree-structured Parzen Estimator)</div>
+      <div class="ref-meta">Advances in Neural Information Processing Systems (NeurIPS) &middot; 2011<br>
+      <em>Introduces the TPE algorithm used for Bayesian NAS in this thesis. TPE models p(x|y) and p(y) separately using kernel density estimators to guide search toward promising configurations.</em></div>
+      <span class="ref-tag">Bayesian / TPE</span>
+    </span>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-num">[11]</span>
+    <span class="ref-body">
+      <div class="ref-title">Deb, K., Pratap, A., Agarwal, S., Meyarivan, T. — A fast and elitist multi-objective genetic algorithm: NSGA-II</div>
+      <div class="ref-meta">IEEE Transactions on Evolutionary Computation &middot; vol. 6, no. 2 &middot; pp. 182–197 &middot; 2002<br>
+      <em>NSGA-II uses non-dominated sorting and crowding distance to simultaneously optimise L2 error and parameter count in the NAS search space.</em></div>
+      <span class="ref-tag">NSGA-II</span>
+    </span>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-num">[12]</span>
+    <span class="ref-body">
+      <div class="ref-title">Deb, K., Jain, H. — An evolutionary many-objective optimisation algorithm using reference-point based non-dominated sorting: NSGA-III</div>
+      <div class="ref-meta">IEEE Transactions on Evolutionary Computation &middot; vol. 18, no. 4 &middot; pp. 577–601 &middot; 2014<br>
+      <em>NSGA-III replaces crowding distance with reference-point diversity, intended for 3+ objectives. In this thesis it is used for the 2-objective (accuracy vs size) NAS problem.</em></div>
+      <span class="ref-tag">NSGA-III</span>
+    </span>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-num">[13]</span>
+    <span class="ref-body">
+      <div class="ref-title">Elsken, T., Metzen, J.H., Hutter, F. — Neural architecture search: A survey</div>
+      <div class="ref-meta">Journal of Machine Learning Research &middot; vol. 20, no. 55 &middot; pp. 1–21 &middot; 2019<br>
+      <em>Comprehensive NAS survey covering search space definition, search strategies (Bayesian, evolutionary, RL), and performance estimation. Provides the framework used to categorise the three optimisers in this thesis.</em></div>
+      <span class="ref-tag">NAS survey</span>
+    </span>
+  </div>
+
+  <div class="sec-title">Training Methodology</div>
+
+  <div class="ref-card">
+    <span class="ref-num">[14]</span>
+    <span class="ref-body">
+      <div class="ref-title">Glorot, X., Bengio, Y. — Understanding the difficulty of training deep feedforward neural networks</div>
+      <div class="ref-meta">AISTATS &middot; 2010<br>
+      <em>Introduces Xavier (Glorot) initialisation. All PINN models in this thesis use Xavier uniform initialisation to prevent vanishing/exploding gradients at the start of training.</em></div>
+      <span class="ref-tag">Initialisation</span>
+    </span>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-num">[15]</span>
+    <span class="ref-body">
+      <div class="ref-title">Loshchilov, I., Hutter, F. — SGDR: Stochastic Gradient Descent with Warm Restarts</div>
+      <div class="ref-meta">ICLR &middot; 2017<br>
+      <em>Cosine annealing LR schedule with warm restarts. Used in Level 5 extended training (20,000 epochs) to escape local minima and achieve the L2=0.030 (Bayesian) and L2=0.055 (NSGA-II) results.</em></div>
+      <span class="ref-tag">Cosine LR</span>
+    </span>
+  </div>
+
+  <div class="sec-title">Multi-Domain &amp; Geometry Extensions</div>
+
+  <div class="ref-card">
+    <span class="ref-num">[16]</span>
+    <span class="ref-body">
+      <div class="ref-title">Tancik, M. et al. — Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains</div>
+      <div class="ref-meta">NeurIPS &middot; 2020<br>
+      <em>Random Fourier feature embeddings (mapping inputs to sinusoidal features) dramatically improve PINN accuracy for high-frequency solutions. Directly relevant to the Flower domain failure in Level 7 where the oscillating boundary cannot be represented by standard relu/tanh MLPs.</em></div>
+      <span class="ref-tag">Fourier features</span>
+    </span>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-num">[17]</span>
+    <span class="ref-body">
+      <div class="ref-title">Sitzmann, V., Martel, J., Bergman, A., Lindell, D., Wetzstein, G. — Implicit Neural Representations with Periodic Activation Functions (SIREN)</div>
+      <div class="ref-meta">NeurIPS &middot; 2020<br>
+      <em>Sinusoidal activations throughout the network enable representation of high-frequency signal derivatives — superior to relu/tanh for PDE solutions with sharp gradients or oscillatory boundaries. Recommended as future extension for the Flower domain in Level 7.</em></div>
+      <span class="ref-tag">SIREN</span>
+    </span>
+  </div>
+
+</div>
+
+<footer>&copy; &Oslash;mer Cetinkaya &middot; NAS-PINNs Research Project &middot; 2026 &middot; <a href="index.html" style="color:var(--blue);text-decoration:none">&#8592; Back to Project</a></footer>
+
+</body>
+</html>
