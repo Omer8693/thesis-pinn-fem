@@ -8,7 +8,7 @@
 
 ## Abstract
 
-This repository presents a progressive, eight-level framework that investigates whether Neural Architecture Search (NAS) can identify Physics-Informed Neural Network (PINN) architectures capable of replacing intermediate Finite Element Method (FEM) time steps in transient thermal simulations. The physical problem of concern is water quenching of an A356 aluminium alloy component — a process with high industrial relevance in automotive subframe manufacturing. Three NAS strategies are evaluated: Bayesian optimisation (TPE), NSGA-II, and NSGA-III. The framework is structured as a curriculum, beginning with a global single-shot predictor (Level 1) and culminating in a fully three-dimensional multi-domain NAS study (Level 8). Results indicate that Bayesian-optimised PINNs can replace up to 71 % of FEM time steps at skip=4 with a mean absolute error below 12 °C across rectangular and cylindrical domains.
+This repository presents a progressive, nine-level framework that investigates whether Neural Architecture Search (NAS) can identify Physics-Informed Neural Network (PINN) architectures capable of replacing intermediate Finite Element Method (FEM) time steps in transient thermal simulations. The physical problem of concern is water quenching of an A356 aluminium alloy component — a process with high industrial relevance in automotive subframe manufacturing. Three NAS strategies are evaluated: Bayesian optimisation (TPE), NSGA-II, and NSGA-III. The framework begins with a global single-shot predictor (Level 1) and culminates in self-adaptive PINNs with Fourier feature embedding (Level 9). The best result — L9 SA+Fourier (NSGA-II) — achieves L2 = 0.014, which is **9.2× better than FEM skip=1** with near-instant inference (≈ 0.01 s).
 
 ---
 
@@ -71,6 +71,7 @@ thesis-pinn-fem/
 +-- level7_temporal/              L7A: temporal skip analysis (extended)
 +-- level7_multiDomain/           L7B: 5-geometry Poisson NAS
 +-- level8_nas_mco_pinn/          L8: 3D multi-domain NAS (4 geometries)
++-- level9_sa_fourier/            L9: SA-PINN + Fourier Feature Embedding
 |
 +-- docs/                         Static documentation website (GitHub Pages)
 |   +-- index.html                Interactive research overview
@@ -88,16 +89,17 @@ thesis-pinn-fem/
 
 ## Eight-Level Experimental Framework
 
-| Level | Title                     | Dimensionality | Key Contribution                                    |
-|-------|---------------------------|----------------|-----------------------------------------------------|
-| L1    | Single-Shot NAS-PINN      | 2D             | Architecture search for global T(t,x,y) predictor   |
-| L2    | Temporal Skip Operator    | 2D             | PINN replaces FEM at intermediate time steps        |
-| L3    | Hybrid FEM + PINN         | 2D             | Residual-based adaptive routing; 80 % FEM reduction |
-| L4    | Thermal Distortion        | 2D             | Temperature field mapped to CMM distortion (mm)     |
-| L5    | Extended Adam Training    | 2D             | 20 000 epochs; Bayesian L2 = 0.030, NSGA-II = 0.055 |
-| L6    | Poisson Auxiliary Loss    | 2D             | Auxiliary Poisson fine-tuning; marginal gain        |
-| L7    | Multi-Domain Poisson NAS  | 2D             | NAS across 5 geometries; circle L2 = 1.4e-4        |
-| L8    | 3D Multi-Domain NAS-PINN  | 3D             | 4 geometries, 3 optimizers, 4 skip values          |
+| Level | Title                     | Dimensionality | Key Contribution                                         |
+|-------|---------------------------|----------------|----------------------------------------------------------|
+| L1    | Single-Shot NAS-PINN      | 2D             | Architecture search for global T(t,x,y) predictor        |
+| L2    | Temporal Skip Operator    | 2D             | PINN replaces FEM at intermediate time steps             |
+| L3    | Hybrid FEM + PINN         | 2D             | Residual-based adaptive routing; 80 % FEM reduction      |
+| L4    | Thermal Distortion        | 2D             | Temperature field mapped to CMM distortion (mm)          |
+| L5    | Extended Adam Training    | 2D             | 20 000 epochs; Bayesian L2 = 0.030, NSGA-II = 0.055      |
+| L6    | Poisson Auxiliary Loss    | 2D             | Auxiliary Poisson fine-tuning; marginal gain             |
+| L7    | Multi-Domain Poisson NAS  | 2D             | NAS across 5 geometries; circle L2 = 1.4e-4             |
+| L8    | 3D Multi-Domain NAS-PINN  | 3D             | 4 geometries, 3 optimizers, 4 skip values               |
+| L9    | SA-PINN + Fourier Embed.  | 2D + 3D        | Learnable loss weights + Fourier features; best L2=0.014 |
 
 ---
 
@@ -156,6 +158,8 @@ Feasibility threshold: MAE < 10 °C. Rectangular and cylinder domains satisfy th
 4. **3D extension is feasible for rectangular and cylindrical domains.** At skip=4 (71 % FEM reduction), Bayesian PINNs achieve MAE < 12 °C for rectangular and cylinder geometries. Stacked and complex domain shapes require more training or architecture refinement.
 
 5. **Poisson auxiliary loss provides marginal improvement.** Fine-tuning with an auxiliary Poisson loss reduces L2_rel by 6–17 %, which is insufficient to justify the additional training cost in production use.
+
+6. **Self-adaptive weights (L9) outperform fixed weights.** Learnable λ values allow the network to automatically balance PDE, BC, and IC losses. Combined with Fourier feature embedding, L9 achieves L2 = 0.014 — the lowest across all levels and 9.2× better than FEM skip=1 (L2 = 0.126). Inference time after a single training pass is ≈ 0.01 s, making it suitable for real-time prediction.
 
 ---
 
