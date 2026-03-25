@@ -50,7 +50,7 @@ Derived from the Robin BC fundamental mode using the material parameters reporte
 ## Repository Structure
 
 ```
-NAS-PINNS3/
+thesis-pinn-fem/
 |
 +-- src/                          Core framework
 |   +-- nas/                      NAS engine (Bayesian, NSGA-II, NSGA-III)
@@ -163,8 +163,8 @@ Feasibility threshold: MAE < 10 °C. Rectangular and cylinder domains satisfy th
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/NAS-PINNS3.git
-cd NAS-PINNS3
+git clone https://github.com/<your-username>/thesis-pinn-fem.git
+cd thesis-pinn-fem
 
 # Install dependencies
 pip install torch numpy scipy matplotlib optuna pymoo
@@ -207,7 +207,7 @@ python -m http.server 8080
 **Online access (GitHub Pages):**
 After enabling GitHub Pages from the repository Settings (Source: `docs/` folder, branch: `main`), the website is accessible at:
 
-    https://<your-username>.github.io/NAS-PINNS3/
+    https://<your-username>.github.io/thesis-pinn-fem/
 
 The website includes interactive Plotly visualisations for all levels, 3D geometry viewers, an animated training convergence display, and a full results comparison table.
 
