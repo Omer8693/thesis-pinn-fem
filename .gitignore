@@ -17,12 +17,6 @@ build/
 .ipynb_checkpoints/
 *.ipynb
 
-# Office / report binaries
-*.pptx
-*.docx
-*.pdf
-*.xlsx
-
 # OS
 .DS_Store
 Thumbs.db
@@ -41,10 +35,5 @@ env/
 # Temp / draft files
 DRAFT.md
 *.tmp
-*.log
 
-# Flask web server (not the static docs site)
-web/
-
-# Old website symlink artifacts (replaced by docs/)
-website/
+# Note: .pdf, .pptx, .docx in reports/professor_brief/ ARE tracked (report outputs)
