@@ -2,7 +2,7 @@
 generate_pptx.py
 ================
 Generate a professional 14-slide PowerPoint presentation for
-IKT464 Advanced ICT Project: NAS-MCO-PINNs
+IKT590-G 26V Master's Thesis: NAS-MCO-PINNs
 
 Usage:
     python generate_pptx.py
@@ -244,7 +244,7 @@ def slide_01_title(prs):
     add_rect(sld, 0.6, 3.18, 7.8, 0.04, C_GREEN)
 
     # Student / course info
-    add_text(sld, "IKT464 Advanced ICT Project  |  March 2026",
+    add_text(sld, "IKT590-G 26V  —  Master's Thesis  |  March 2026",
              l=0.6, t=3.32, w=8.1, h=0.4,
              fs=14, color=C_LBLUE, italic=True)
     add_text(sld, "University of Agder  \u00b7  Department of ICT",
@@ -431,7 +431,7 @@ def slide_04_fem_reference(prs):
     """Slide 4 — FEM Reference Model"""
     sld = blank_slide(prs)
     add_rect(sld, 0, 0, 13.33, 7.5, C_WHITE)
-    title_bar(sld, "FEM Reference Model \u2014 [Mortensen et al., 2026]")
+    title_bar(sld, "FEM Reference Model  —  Mortensen et al. (2026)")
 
     # Left column
     add_rect(sld, 0.25, 1.35, 7.4, 5.9, C_LGRAY)
@@ -443,7 +443,7 @@ def slide_04_fem_reference(prs):
         ("We did NOT implement FEM ourselves.",                      True,  C_RED,   11),
         ("Reference data is from:",                                  True,  C_NAVY,  11),
         ("",                                                         False, C_TEXT,   3),
-        ('  [Mortensen et al., 2026]',                          True,  C_BLUE,  11),
+        ('  D. Mortensen, G. Noorsumar, H.G. Fjaer, R. Babaei, P.E. Dronen (2026)',                          True,  C_BLUE,  11),
         ('  "Mitigating distortions in cast automotive subframes:',  False, C_TEXT,  10),
         ('   A finite element simulation approach"',                 False, C_TEXT,  10),
         ("  Int J Adv Manuf Technol, 2026",                         False, C_TEXT,  10),
@@ -474,7 +474,7 @@ def slide_04_fem_reference(prs):
              l=7.95, t=1.37, w=5.05, h=0.36,
              fs=11, bold=True, color=C_WHITE,
              align=PP_ALIGN.CENTER)
-    add_text(sld, "(Source: Table 1, [Mortensen et al., 2026])",
+    add_text(sld, "(Source: Table 1 — Mortensen et al., 2026)",
              l=7.95, t=1.77, w=5.05, h=0.28,
              fs=9, italic=True, color=C_TEXT,
              align=PP_ALIGN.CENTER)
@@ -1204,7 +1204,7 @@ def slide_14_references(prs):
          "and inverse problems. J. Comput. Phys., 378, 686\u2013707. "
          "DOI: 10.1016/j.jcp.2018.10.045"),
 
-        ("[2]  Mortensen et al. (2026). Mitigating distortions in cast automotive "
+        ("[2]  D. Mortensen, G. Noorsumar, H.G. Fjaer, R. Babaei, P.E. Dronen (2026). Mitigating distortions in cast automotive "
          "subframes: A finite element simulation approach. "
          "Int J Adv Manuf Technol. DOI: 10.1007/s00170-026-17515-w"),
 

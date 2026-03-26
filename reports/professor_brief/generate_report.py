@@ -273,7 +273,7 @@ def make_page1(pdf):
     )
     ax_b.text(
         0.5, 0.17,
-        "IKT464 Advanced ICT Project Progress Report \u2014 March 2026",
+        "IKT590-G 26V Master's Thesis Progress Report \u2014 March 2026",
         fontsize=9.2, color="#c5cae9",
         ha="center", va="center", transform=ax_b.transAxes,
         fontfamily="DejaVu Serif",
@@ -842,8 +842,8 @@ def main():
             "NAS-MCO-PINNs: A Nine-Level Framework for Physics-Informed "
             "Neural Network Optimization in Industrial Thermal Simulation"
         )
-        d["Author"]   = "IKT464 Student"
-        d["Subject"]  = "IKT464 Advanced ICT Project Progress Report — March 2026"
+        d["Author"]   = "IKT590-G Student"
+        d["Subject"]  = "IKT590-G 26V Master's Thesis Progress Report — March 2026"
         d["Keywords"] = ("PINN NAS FEM quenching A356 Fourier "
                          "self-adaptive loss weights temporal skip")
 

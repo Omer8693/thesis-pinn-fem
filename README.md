@@ -2,7 +2,7 @@
 
 **Author:** Omer Cetinkaya  
 **Year:** 2026  
-**Course:** IKT464 Advanced ICT Project  
+**Course:** IKT590-G 26V Master's Thesis  
 
 ---
 
@@ -173,30 +173,6 @@ Final learned values: λ_phys ≈ 0.48, λ_bc ≈ 9.28, λ_ic ≈ 9.28.
 - 4× improvement over L5 reference (L2=0.055)  
 - 9.2× better than FEM skip=1 (L2=0.126)  
 - Inference: 0.01s vs FEM 184s → **18,400× speedup**
-
----
-
-## Installation
-
-```bash
-git clone https://github.com/<your-username>/thesis-pinn-fem.git
-cd thesis-pinn-fem
-pip install torch numpy scipy matplotlib optuna pymoo scikit-optimize python-pptx
-```
-
-Python 3.9+, PyTorch 2.x. All experiments run on CPU.
-
----
-
-## Generating Reports
-
-```bash
-# Regenerate professor brief PDF (5 pages)
-python reports/professor_brief/generate_report.py
-
-# Regenerate PowerPoint presentation (14 slides)
-python reports/professor_brief/generate_pptx.py
-```
 
 ---
 
