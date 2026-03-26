@@ -16,12 +16,60 @@ This repository presents a progressive, nine-level framework that investigates w
 
 All FEM baseline values, material properties, and CMM distortion measurements come from:
 
-> Dag Mortensen, Gulshan Noorsumar, Hallvard G. Fjaer, Reza Babaei, Per Erik Dronen (2026).  
-> "Mitigating distortions in cast automotive subframes: A finite element simulation approach."  
-> *The International Journal of Advanced Manufacturing Technology.*  
+> D. Mortensen, G. Noorsumar, H.G. Fjaer, R. Babaei, P.E. Dronen (2026).
+> "Mitigating distortions in cast automotive subframes: A finite element simulation approach."
+> *The International Journal of Advanced Manufacturing Technology.*
 > https://doi.org/10.1007/s00170-026-17515-w
 
 We did **not** implement FEM. We used this paper's simulation data as ground truth.
+
+---
+
+## How the FEM Data Was Used in Our Code
+
+We extracted three types of data from the paper and implemented them in our codebase:
+
+### 1. Material Properties — `src/physics_model.py` and `src/config.py`
+
+We read the A356 aluminium flow stress parameters directly from **Table 1** of the paper and hard-coded them as interpolation tables in `src/physics_model.py`:
+
+```python
+# Temperature reference points [°C] — from Table 1, Mortensen et al. (2026)
+A356_TEMPS = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550]
+A356_F     = [22.0, 21.5, 21.0, 20.0, 18.9, ...]   # Flow stress [MPa]
+A356_N     = [0.3, 0.3, 0.3, 0.3, 0.27, ...]         # Strain hardening exponent
+A356_M     = [0.0, 0.0, 0.0, 0.006, 0.016, ...]      # Strain-rate sensitivity
+```
+
+The bulk thermal properties used in the PDE are in `src/config.py`:
+
+```python
+K_THERMAL = 150.0   # W/(m·K)  — thermal conductivity
+RHO_CP    = 2.4e6   # J/(m³·K) — volumetric heat capacity
+T_INIT    = 540.0   # °C       — initial casting temperature
+```
+
+### 2. Heat Transfer Coefficient h(T) — `src/physics_model.py`
+
+We approximated the h(T) curve from **Figure 6 and Section 2.3** of the paper as a piecewise function in the `WaterQuenchHTC` class. The curve models three boiling regimes as the surface cools from 540 °C to 20 °C:
+
+| Regime | Temperature range | h(T) model |
+|--------|------------------|------------|
+| Film boiling (Leidenfrost) | T > T_mfb | Low h — vapour layer insulates surface |
+| Transition | T_chf .. T_mfb | Linear interpolation |
+| Nucleate boiling | T_sat .. T_chf | Peak h — vigorous bubble formation |
+| Forced convection | T < T_sat | Low h — single-phase convection |
+
+### 3. Reference Temperature Histories and Distortion — `src/baseline_data.py`
+
+We manually digitised the temperature histories from **Figures 7, 15–17** and the CMM distortion measurements from **Figure 15** of the paper. These are stored in `src/baseline_data.py` and used as ground truth to compute L2 error and MAE for all our models:
+
+```python
+# Example: temperature at 8 measurement points over 21 time steps
+# Digitised from Figure 17, Mortensen et al. (2026) — tolerance ±2 °C
+```
+
+**Summary: nothing in our code runs FEM.** All physical behaviour is either encoded as the PDE loss in the PINN training, or used as digitised reference data for validation.
 
 ---
 
