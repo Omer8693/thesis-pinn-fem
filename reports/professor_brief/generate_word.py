@@ -412,12 +412,20 @@ def build():
     )
 
     img(doc,
+        os.path.join(L8, "fig1_thermal_fields.png"),
+        w_cm=15,
+        cap=(
+            "Figure 1. Level 8 — Predicted temperature fields on the z-midplane for all four "
+            "3D domains at skip=1 (best NAS architecture per domain). "
+            "Turbo colormap: blue = 20 °C, yellow = 540 °C."
+        )
+    )
+    img(doc,
         os.path.join(L8, "fig8_3d_feasibility.png"),
         w_cm=15,
         cap=(
-            "Figure 1. Level 8 — 3D temperature fields we predicted vs. FEM reference "
-            "on the z-midplane for all four domains (skip=1, best NAS architecture per domain). "
-            "Turbo colormap: blue = 20 °C, yellow = 540 °C."
+            "Figure 2. Level 8 — 3D feasibility: PINN prediction vs. FEM reference "
+            "side-by-side for all four domains. We achieved MAE = 2.19 °C on L-Shape (NSGA-II, skip=1)."
         )
     )
 
@@ -455,7 +463,7 @@ def build():
         os.path.join(L9, "fig1_2d_comparison.png"),
         w_cm=15,
         cap=(
-            "Figure 2. Level 9 2D result (SA+Fourier, NSGA-II): exact temperature field (left), "
+            "Figure 3. Level 9 2D result (SA+Fourier, NSGA-II): exact temperature field (left), "
             "our PINN prediction (centre), and absolute error map (right). "
             "Largest errors near corners where boundary layer gradients are steepest."
         )
@@ -464,7 +472,7 @@ def build():
         os.path.join(L9, "fig2_3d_comparison.png"),
         w_cm=15,
         cap=(
-            "Figure 3. Level 9 3D result (SA+Fourier, Bayesian): exact vs. PINN-predicted "
+            "Figure 4. Level 9 3D result (SA+Fourier, Bayesian): exact vs. PINN-predicted "
             "temperature on the z-midplane. We achieved L2 = 0.247 in 3D; the gap to our "
             "2D result (L2 = 0.014) shows that running NAS in 3D is the key next step."
         )

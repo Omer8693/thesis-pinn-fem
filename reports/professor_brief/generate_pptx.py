@@ -929,40 +929,40 @@ def slide_09_nas(prs):
 
 
 def slide_10_level8(prs):
-    """Slide 10 — Level 8: 3D Temperature Fields Visualization"""
+    """Slide 10 — Level 8: 3D Temperature Fields (both fig1 and fig8)"""
     sld = blank_slide(prs)
     add_rect(sld, 0, 0, 13.33, 7.5, C_WHITE)
-    title_bar(sld, "Level 8 \u2014 3D Temperature Fields: PINN vs FEM  (4 Domains)")
+    title_bar(sld, "Level 8 \u2014 3D Temperature Fields: Predicted vs. FEM  (4 Domains)")
 
-    # Main image: fig8_3d_feasibility.png — full 3D field comparison
-    img_path = os.path.join(L8_IMG, "fig8_3d_feasibility.png")
-    loaded = add_img(sld, img_path, l=0.3, t=1.28, w=12.7, h=4.75)
+    # Left image: fig1_thermal_fields.png — predicted fields for all 4 domains
+    add_rect(sld, 0.25, 1.28, 6.45, 0.28, C_NAVY)
+    add_text(sld, "Predicted Temperature Fields (z-midplane)",
+             l=0.28, t=1.29, w=6.4, h=0.26,
+             fs=10, bold=True, color=C_WHITE, align=PP_ALIGN.CENTER)
+    add_img(sld, os.path.join(L8_IMG, "fig1_thermal_fields.png"),
+            l=0.25, t=1.58, w=6.45, h=4.65)
 
-    if not loaded:
-        # Fallback: fig1_thermal_fields.png
-        img_path2 = os.path.join(L8_IMG, "fig1_thermal_fields.png")
-        loaded = add_img(sld, img_path2, l=0.3, t=1.28, w=12.7, h=4.75)
-        if not loaded:
-            add_text(sld, "[3D field images not found — check level8_nas_mco_pinn/results/]",
-                     l=0.5, t=2.5, w=12.3, h=0.5, fs=11, color=C_RED,
-                     align=PP_ALIGN.CENTER)
+    # Right image: fig8_3d_feasibility.png — PINN vs FEM comparison
+    add_rect(sld, 6.85, 1.28, 6.2, 0.28, C_GREEN)
+    add_text(sld, "PINN vs. FEM Reference \u2014 Feasibility Check",
+             l=6.88, t=1.29, w=6.15, h=0.26,
+             fs=10, bold=True, color=C_WHITE, align=PP_ALIGN.CENTER)
+    add_img(sld, os.path.join(L8_IMG, "fig8_3d_feasibility.png"),
+            l=6.85, t=1.58, w=6.2, h=4.65)
 
     add_text(sld,
-             "Turbo colormap: blue = 20 \u00b0C  \u2192  yellow = 540 \u00b0C  |  "
-             "Predicted (left) vs. FEM reference (right) at z-midplane",
-             l=0.4, t=6.1, w=12.5, h=0.35,
-             fs=10, italic=True, color=C_TEXT,
-             align=PP_ALIGN.CENTER)
+             "Turbo colormap: blue = 20 \u00b0C \u2192 yellow = 540 \u00b0C",
+             l=0.3, t=6.27, w=6.4, h=0.25,
+             fs=9, italic=True, color=C_TEXT, align=PP_ALIGN.CENTER)
 
     # Summary bar
-    add_rect(sld, 0.3, 6.55, 12.7, 0.8, RGBColor(0xe8, 0xea, 0xf6))
+    add_rect(sld, 0.25, 6.58, 12.83, 0.72, RGBColor(0xe8, 0xea, 0xf6))
     add_text(sld,
-             "4 domains \u00d7 3 NAS optimizers \u00d7 4 skip values = 48 total runs  |  "
-             "Best: L-Shape, NSGA-II, skip=1 \u2192 MAE = 2.19 \u00b0C  |  "
-             "skip=2 (52% FEM savings): all domains MAE < 11 \u00b0C",
-             l=0.45, t=6.6, w=12.4, h=0.68,
-             fs=10, bold=False, color=C_NAVY,
-             align=PP_ALIGN.CENTER)
+             "4 domains \u00d7 3 NAS optimizers \u00d7 4 skip values = 48 runs  |  "
+             "We achieved MAE = 2.19 \u00b0C on L-Shape (NSGA-II, skip=1)  |  "
+             "At skip=2 (52% FEM savings): all domains MAE < 11 \u00b0C",
+             l=0.4, t=6.62, w=12.6, h=0.62,
+             fs=10, color=C_NAVY, align=PP_ALIGN.CENTER)
 
     return sld
 
