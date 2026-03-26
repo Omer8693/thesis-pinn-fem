@@ -929,46 +929,110 @@ def slide_09_nas(prs):
 
 
 def slide_10_level8(prs):
-    """Slide 10 — Level 8: 3D Results"""
+    """Slide 10 — Level 8: 3D Temperature Fields Visualization"""
     sld = blank_slide(prs)
     add_rect(sld, 0, 0, 13.33, 7.5, C_WHITE)
-    title_bar(sld, "Level 8 \u2014 3D Multi-Geometry Results  (48 Experiments)")
+    title_bar(sld, "Level 8 \u2014 3D Temperature Fields: PINN vs FEM  (4 Domains)")
 
-    img_path = os.path.join(L8_IMG, "fig4_summary_table.png")
-    loaded = add_img(sld, img_path, l=0.5, t=1.35, w=12.3, h=4.6)
+    # Main image: fig8_3d_feasibility.png — full 3D field comparison
+    img_path = os.path.join(L8_IMG, "fig8_3d_feasibility.png")
+    loaded = add_img(sld, img_path, l=0.3, t=1.28, w=12.7, h=4.75)
 
     if not loaded:
-        add_text(sld, "Level 8 Results Summary (48 Runs)",
-                 l=0.5, t=1.38, w=12.3, h=0.35,
-                 fs=13, bold=True, color=C_NAVY,
-                 align=PP_ALIGN.CENTER)
-        headers = ["Domain", "Optimizer", "Skip", "MAE (\u00b0C)", "L2", "Params"]
-        rows = [
-            ["L-Shape",     "NSGA-II",  "1", "2.19",  "0.089", "83K"],
-            ["L-Shape",     "NSGA-III", "1", "2.31",  "0.091", "45K"],
-            ["Cylinder",    "NSGA-II",  "2", "4.87",  "0.103", "76K"],
-            ["Rectangular", "Bayesian", "2", "6.12",  "0.118", "93K"],
-            ["Stacked",     "NSGA-II",  "4", "10.44", "0.197", "71K"],
-            ["All domains", "All",      "2", "< 11",  "< 0.20", "\u2014"],
-        ]
-        make_table(sld, headers, rows,
-                   l=0.5, t=1.85, w=12.3, h=3.2,
-                   col_widths=[0.18, 0.16, 0.10, 0.16, 0.17, 0.13])
+        # Fallback: fig1_thermal_fields.png
+        img_path2 = os.path.join(L8_IMG, "fig1_thermal_fields.png")
+        loaded = add_img(sld, img_path2, l=0.3, t=1.28, w=12.7, h=4.75)
+        if not loaded:
+            add_text(sld, "[3D field images not found — check level8_nas_mco_pinn/results/]",
+                     l=0.5, t=2.5, w=12.3, h=0.5, fs=11, color=C_RED,
+                     align=PP_ALIGN.CENTER)
 
-    # Summary panel
-    add_rect(sld, 0.5, 6.1, 12.3, 1.2, RGBColor(0xe8, 0xea, 0xf6))
     add_text(sld,
-             "4 domains  \u00d7  3 NAS optimizers  \u00d7  4 skip values  =  48 total runs",
-             l=0.65, t=6.15, w=12.0, h=0.35,
-             fs=12, bold=True, color=C_NAVY,
+             "Turbo colormap: blue = 20 \u00b0C  \u2192  yellow = 540 \u00b0C  |  "
+             "Predicted (left) vs. FEM reference (right) at z-midplane",
+             l=0.4, t=6.1, w=12.5, h=0.35,
+             fs=10, italic=True, color=C_TEXT,
              align=PP_ALIGN.CENTER)
+
+    # Summary bar
+    add_rect(sld, 0.3, 6.55, 12.7, 0.8, RGBColor(0xe8, 0xea, 0xf6))
     add_text(sld,
-             "Best: L-Shape domain, NSGA-II/III, skip=1 \u2192 MAE = 2.19\u00b0C  |  "
-             "At skip=2 (48% FEM savings): all domains achieve MAE < 11\u00b0C  |  "
-             "3D gap: L2 ~0.09\u20130.20 vs 0.014 (2D) \u2014 future work: 3D-specific NAS",
-             l=0.65, t=6.52, w=12.0, h=0.68,
-             fs=10, color=C_TEXT,
+             "4 domains \u00d7 3 NAS optimizers \u00d7 4 skip values = 48 total runs  |  "
+             "Best: L-Shape, NSGA-II, skip=1 \u2192 MAE = 2.19 \u00b0C  |  "
+             "skip=2 (52% FEM savings): all domains MAE < 11 \u00b0C",
+             l=0.45, t=6.6, w=12.4, h=0.68,
+             fs=10, bold=False, color=C_NAVY,
              align=PP_ALIGN.CENTER)
+
+    return sld
+
+
+def slide_10b_mae_table(prs):
+    """Slide 10b — Level 8: Full 48-Run MAE Table"""
+    sld = blank_slide(prs)
+    add_rect(sld, 0, 0, 13.33, 7.5, C_WHITE)
+    title_bar(sld, "Level 8 \u2014 Full Results: MAE (\u00b0C) for All 48 Runs")
+
+    # Colour legend
+    add_rect(sld, 0.3, 1.28, 1.8, 0.28, RGBColor(0xC8, 0xE6, 0xC9))
+    add_text(sld, "< 8 \u00b0C", l=0.32, t=1.29, w=1.76, h=0.26, fs=9, bold=True, color=RGBColor(0x1B,0x5E,0x20))
+    add_rect(sld, 2.2, 1.28, 1.8, 0.28, RGBColor(0xFF, 0xF9, 0xC4))
+    add_text(sld, "8\u201315 \u00b0C", l=2.22, t=1.29, w=1.76, h=0.26, fs=9, bold=True, color=RGBColor(0xF5,0x7F,0x17))
+    add_rect(sld, 4.1, 1.28, 1.8, 0.28, RGBColor(0xFF, 0xCD, 0xD2))
+    add_text(sld, "> 15 \u00b0C", l=4.12, t=1.29, w=1.76, h=0.26, fs=9, bold=True, color=RGBColor(0xB7,0x1C,0x1C))
+
+    # Full 12-row MAE table
+    headers = ["Domain",     "Optimizer",
+               "skip=1\n(0%)", "skip=2\n(52%)", "skip=4\n(71%)", "skip=6\n(81%)"]
+    rows = [
+        ["Rectangular", "Bayesian",  "5.53",  "10.31", "21.39", "15.65"],
+        ["Rectangular", "NSGA-II",   "5.41",  "10.39", "20.99", "25.86"],
+        ["Rectangular", "NSGA-III",  "5.41",  "10.50", "21.00", "25.90"],
+        ["Cylinder",    "Bayesian",  "5.33",  "10.69", "11.54", "10.23"],
+        ["Cylinder",    "NSGA-II",   "4.23",  " 8.69", "18.93", "25.38"],
+        ["Cylinder",    "NSGA-III",  "4.20",  " 9.14", "16.24", "22.54"],
+        ["Stacked",     "Bayesian",  "4.95",  " 9.80", "21.64", "17.18"],
+        ["Stacked",     "NSGA-II",   "5.32",  "10.20", "19.60", "25.69"],
+        ["Stacked",     "NSGA-III",  "5.12",  "10.27", "19.77", "25.51"],
+        ["L-Shape",     "Bayesian",  "5.60",  " 6.19", " 5.61", " 5.60"],
+        ["L-Shape",     "NSGA-II",   "2.19",  " 5.74", "15.45", "22.53"],
+        ["L-Shape",     "NSGA-III",  "2.19",  " 5.72", "15.51", "22.73"],
+    ]
+
+    def cell_color(val_str, col_idx):
+        if col_idx >= 2:
+            try:
+                v = float(val_str.strip())
+                if v < 8:   return RGBColor(0xC8, 0xE6, 0xC9)
+                if v < 15:  return RGBColor(0xFF, 0xF9, 0xC4)
+                return RGBColor(0xFF, 0xCD, 0xD2)
+            except Exception:
+                pass
+        return None
+
+    tbl = make_table(sld, headers, rows,
+                     l=0.4, t=1.65, w=12.5, h=4.9,
+                     col_widths=[0.19, 0.17, 0.16, 0.17, 0.17, 0.14])
+
+    # Apply colour coding to data cells
+    if tbl is not None:
+        for ri, row_data in enumerate(rows):
+            for ci, val in enumerate(row_data):
+                clr = cell_color(val, ci)
+                if clr is not None:
+                    cell = tbl.cell(ri + 1, ci)
+                    fill = cell.fill
+                    fill.solid()
+                    fill.fore_color.rgb = clr
+
+    # Footer
+    add_rect(sld, 0.3, 6.65, 12.7, 0.65, RGBColor(0xe8, 0xea, 0xf6))
+    add_text(sld,
+             "Best 3D result: L-Shape + NSGA-II/III, skip=1 \u2192 MAE = 2.19 \u00b0C  |  "
+             "Recommended: skip=2 (52% FEM savings, MAE < 11 \u00b0C for all domains)  |  "
+             "3D future work: run NAS directly in 3D",
+             l=0.45, t=6.68, w=12.5, h=0.58,
+             fs=10, color=C_NAVY, align=PP_ALIGN.CENTER)
 
     return sld
 
@@ -1303,7 +1367,8 @@ def main():
         ("Slide  7 \u2014 Fourier Features",             slide_07_fourier),
         ("Slide  8 \u2014 Self-Adaptive Weights",        slide_08_sa_weights),
         ("Slide  9 \u2014 NAS Architecture Search",      slide_09_nas),
-        ("Slide 10 \u2014 Level 8 3D Results",           slide_10_level8),
+        ("Slide 10 \u2014 Level 8 3D Fields",             slide_10_level8),
+        ("Slide 10b \u2014 Level 8 Full MAE Table",       slide_10b_mae_table),
         ("Slide 11 \u2014 Level 9 Best Results",         slide_11_level9),
         ("Slide 12 \u2014 FEM vs PINN Comparison",       slide_12_fem_vs_pinn),
         ("Slide 13 \u2014 Key Findings",                 slide_13_findings),
