@@ -1038,88 +1038,79 @@ def slide_10b_mae_table(prs):
 
 
 def slide_11_level9(prs):
-    """Slide 11 — Level 9: Best Results"""
+    """Slide 11 — Level 9: Best Results with 2D and 3D comparison images"""
     sld = blank_slide(prs)
     add_rect(sld, 0, 0, 13.33, 7.5, C_WHITE)
     title_bar(sld,
-              "Level 9 \u2014 SA-PINNs + Fourier Features  (Best Performance)",
+              "Level 9 \u2014 SA-PINNs + Fourier Features  (Our Best Result)",
               color=C_GREEN)
 
-    # Left — results table
-    add_rect(sld, 0.25, 1.35, 6.7, 4.15, C_LGRAY)
-    add_text(sld, "Level 9 Results \u2014 All Variants",
-             l=0.35, t=1.4, w=6.5, h=0.35,
-             fs=12, bold=True, color=C_NAVY)
+    # ── Left column: results table ──────────────────────────────────────────
+    add_rect(sld, 0.25, 1.32, 5.9, 3.9, C_LGRAY)
+    add_text(sld, "Level 9 \u2014 All Variants",
+             l=0.35, t=1.36, w=5.7, h=0.32,
+             fs=11, bold=True, color=C_NAVY)
 
-    headers = ["Variant", "Optimizer", "Dim", "L2", "Train (s)"]
+    headers = ["Variant", "Opt.", "Dim", "L2", "Time"]
     rows = [
-        ["SA+Fourier", "Bayesian", "2D", "0.0253",  "482"],
-        ["SA+Fourier", "NSGA-II",  "2D", "0.0137*", "444"],
-        ["SA+Fourier", "NSGA-III", "2D", "0.0668",  "412"],
-        ["SA+Fourier", "Bayesian", "3D", "0.247",   "596"],
-        ["SA-only",    "Bayesian", "2D", "0.0151",  "404"],
-        ["SA-only",    "NSGA-II",  "2D", "0.0397",  "378"],
-        ["SA-only",    "NSGA-III", "2D", "0.0521",  "361"],
-        ["Baseline",   "NSGA-II",  "2D", "0.055",   "312"],
+        ["SA+Fourier", "Bayesian", "2D", "0.0253", "482s"],
+        ["SA+Fourier", "NSGA-II",  "2D", "0.0137\u2605", "444s"],
+        ["SA+Fourier", "NSGA-III", "2D", "0.0668", "412s"],
+        ["SA+Fourier", "Bayesian", "3D", "0.247",  "596s"],
+        ["SA+Fourier", "NSGA-II",  "3D", "0.717",  "555s"],
+        ["SA-only",    "Bayesian", "2D", "0.0151", "404s"],
+        ["SA-only",    "NSGA-II",  "2D", "0.0397", "378s"],
+        ["Baseline",   "NSGA-II",  "2D", "0.055",  "312s"],
     ]
     make_table(sld, headers, rows,
-               l=0.3, t=1.83, w=6.55, h=3.0,
-               col_widths=[0.23, 0.20, 0.12, 0.23, 0.22])
+               l=0.28, t=1.73, w=5.8, h=2.85,
+               col_widths=[0.24, 0.16, 0.12, 0.22, 0.26])
 
-    add_text(sld, "* = overall best result across all 9 levels",
-             l=0.35, t=4.92, w=6.5, h=0.3,
+    add_text(sld, "\u2605 = best result across all 9 levels",
+             l=0.35, t=4.62, w=5.7, h=0.28,
              fs=9, italic=True, color=C_TEXT)
 
-    # Right — image
-    add_rect(sld, 7.15, 1.35, 5.9, 4.15, RGBColor(0xe8, 0xf5, 0xe9))
-    add_rect(sld, 7.15, 1.35, 5.9, 0.38, C_GREEN)
-    add_text(sld, "Exact vs Predicted Temperature Fields",
-             l=7.2, t=1.37, w=5.8, h=0.34,
-             fs=11, bold=True, color=C_WHITE,
+    # ── Right column: 2D comparison (top) + 3D comparison (bottom) ──────────
+    # Header bar for right column
+    add_rect(sld, 6.3, 1.32, 6.8, 0.32, C_GREEN)
+    add_text(sld, "Exact vs. Predicted Temperature Fields",
+             l=6.35, t=1.33, w=6.7, h=0.30,
+             fs=10, bold=True, color=C_WHITE,
              align=PP_ALIGN.CENTER)
 
-    img_path = os.path.join(PLOTS, "fig1_2d_comparison.png")
-    loaded = add_img(sld, img_path, l=7.2, t=1.78, w=5.8, h=3.3)
-    if not loaded:
-        add_rect(sld, 7.2, 1.78, 5.8, 3.3, C_MGRAY)
-        add_text(sld,
-                 "[Figure: Exact vs Predicted temperature fields\n"
-                 " Level 9, SA+Fourier, NSGA-II\n\n"
-                 " level9/results/plots/fig1_2d_comparison.png]",
-                 l=7.3, t=2.6, w=5.6, h=1.5,
-                 fs=11, color=C_TEXT,
-                 align=PP_ALIGN.CENTER)
+    # 2D comparison image
+    add_img(sld, os.path.join(PLOTS, "fig1_2d_comparison.png"),
+            l=6.3, t=1.67, w=6.8, h=2.25)
+    add_text(sld, "2D result: SA+Fourier, NSGA-II  \u2014  L2 = 0.0137",
+             l=6.3, t=3.94, w=6.8, h=0.22,
+             fs=9, italic=True, color=C_TEXT, align=PP_ALIGN.CENTER)
 
+    # 3D comparison image
+    add_img(sld, os.path.join(PLOTS, "fig2_3d_comparison.png"),
+            l=6.3, t=4.2, w=6.8, h=1.85)
+    add_text(sld, "3D result: SA+Fourier, Bayesian  \u2014  L2 = 0.247  (NAS done in 2D \u2192 3D gap)",
+             l=6.3, t=6.07, w=6.8, h=0.22,
+             fs=9, italic=True, color=C_TEXT, align=PP_ALIGN.CENTER)
+
+    # ── Bottom summary bar ───────────────────────────────────────────────────
+    add_rect(sld, 0.25, 6.35, 12.83, 1.0, RGBColor(0xe8, 0xf5, 0xe9))
+    add_rect(sld, 0.25, 6.35, 0.12, 1.0, C_GREEN)
+
+    add_text(sld, "We achieved L2 = 0.0137 (SA+Fourier, NSGA-II, 2D)",
+             l=0.5, t=6.38, w=6.5, h=0.35,
+             fs=12, bold=True, color=C_GREEN)
     add_text(sld,
-             "Fig 1: Level 9 exact vs predicted fields (t = 5 s, 15 s, 21 s)\n"
-             "SA+Fourier, NSGA-II,  L2 = 0.0137",
-             l=7.2, t=5.18, w=5.8, h=0.45,
-             fs=9, italic=True, color=C_TEXT,
-             align=PP_ALIGN.CENTER)
-
-    # Bottom green box
-    add_rect(sld, 0.25, 5.55, 12.83, 1.65, RGBColor(0xe8, 0xf5, 0xe9))
-    add_rect(sld, 0.25, 5.55, 0.12, 1.65, C_GREEN)
-
-    add_text(sld, "Best L2 = 0.0137",
-             l=0.5, t=5.62, w=4.5, h=0.4,
-             fs=14, bold=True, color=C_GREEN)
-    add_text(sld,
-             "4\u00d7 improvement over Level 5 (L2=0.055)\n"
-             "9\u00d7 better than FEM skip=1 (L2=0.126)\n"
-             "Inference: 0.01 s  vs  FEM 184 s  \u2192  18,400\u00d7 speedup",
-             l=0.5, t=6.0, w=6.0, h=1.1,
-             fs=11, color=C_TEXT)
-
-    add_text(sld, "NSGA-II Architecture:",
-             l=6.8, t=5.62, w=6.1, h=0.3,
-             fs=11, bold=True, color=C_NAVY)
-    add_text(sld,
-             "4 hidden layers  \u00d7  96 neurons  |  Activation: SiLU\n"
-             "Fourier features: n=64, \u03c3=1.0  |  ~67K parameters\n"
-             "SA weights: \u03bb_phys=0.48, \u03bb_bc=9.28, \u03bb_ic=9.28",
-             l=6.8, t=5.97, w=6.1, h=1.1,
+             "We improved 4\u00d7 over Level 5 (L2=0.055)  |  "
+             "9\u00d7 better than FEM skip=1 (L2=0.126)  |  "
+             "Inference: 0.01 s vs 184 s FEM \u2192 18,400\u00d7 speedup",
+             l=0.5, t=6.73, w=8.0, h=0.55,
              fs=10, color=C_TEXT)
+
+    add_text(sld,
+             "NSGA-II arch: 3 layers \u00d7 153 neurons\n"
+             "\u03bb_phys=0.48  |  \u03bb_bc=9.28  |  \u03bb_ic=9.28",
+             l=8.7, t=6.38, w=4.3, h=0.9,
+             fs=10, color=C_NAVY)
 
     return sld
 

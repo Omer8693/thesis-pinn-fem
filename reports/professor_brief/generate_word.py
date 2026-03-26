@@ -295,42 +295,44 @@ def build():
     # ── Section 1: Introduction ─────────────────────────────────────────────
     heading(doc, "1.  Introduction")
     para(doc,
-        "Physics-Informed Neural Networks (PINNs) offer a mesh-free approach to solving "
-        "partial differential equations by encoding physical laws directly in the training "
-        "loss. This project investigates whether NAS-selected PINNs can replace intermediate "
-        "FEM time steps in the transient thermal simulation of A356 aluminium water quenching "
-        "— a critical step in automotive subframe manufacturing where distortion must be "
-        "predicted and minimised."
+        "In this project we investigated whether Physics-Informed Neural Networks (PINNs) "
+        "can replace intermediate Finite Element Method (FEM) time steps in a transient "
+        "thermal simulation. We chose the water quenching of an A356 aluminium automotive "
+        "subframe as our test case — a real manufacturing process where engineers currently "
+        "rely on slow FEM simulations to predict and control part distortion."
     )
     para(doc,
-        "The physical problem: a casting at T₀ = 540 °C is plunged into water at T∞ = 20 °C. "
         "The governing PDE is ρ·cₚ·∂T/∂t = k·∇²T with a nonlinear Robin boundary condition "
-        "-k·∂T/∂n = h(T)·(T - T∞). FEM runs 21 time steps totalling 184 s per simulation "
-        "(A356: ρ = 2670 kg/m³, cₚ = 963 J/(kg·K), k = 151 W/(m·K)). "
-        "FEM reference data is from: " + FEM_SHORT + "."
+        "-k·∂T/∂n = h(T)·(T − T∞). We used FEM reference data from "
+        + FEM_SHORT + " as ground truth — we did not implement FEM ourselves. "
+        "Their simulation runs 21 time steps totalling 184 s "
+        "(A356: ρ = 2670 kg/m³, cₚ = 963 J/(kg·K), k = 151 W/(m·K))."
     )
     para(doc,
-        "This report presents a nine-level framework. Three key contributions are: "
-        "(i) a temporal skip operator predicting s FEM steps ahead from any initial condition; "
+        "We developed a nine-level framework, adding one new contribution per level. "
+        "Our three main technical contributions are: "
+        "(i) a temporal skip operator we designed to predict s FEM steps ahead from any "
+        "initial condition; "
         "(ii) Fourier feature embedding [Tancik et al., 2020] to overcome spectral bias; "
         "(iii) self-adaptive loss weights [Wang et al., 2022] replacing fixed λ values. "
-        "Validated across four 3D geometries and in 2D with three NAS optimisers. "
-        "Best result: L2 = 0.014 (SA+Fourier, NSGA-II, 2D) — 9.2× better than FEM skip=1."
+        "We validated our approach across four 3D geometries and in 2D with three NAS optimisers. "
+        "Our best result: L2 = 0.014 (SA+Fourier, NSGA-II, 2D) — 9.2× better than FEM skip=1."
     )
 
     # ── Section 2: Skip Operator ─────────────────────────────────────────────
-    heading(doc, "2.  The Temporal Skip Operator")
+    heading(doc, "2.  The Temporal Skip Operator — Our Design")
     para(doc,
-        "Standard PINNs require one training run per FEM time step (21 runs). We designed a "
-        "single network predicting s steps ahead from the current initial condition:"
+        "Instead of training one PINN per FEM time step (21 separate runs), we designed "
+        "a single network that predicts s steps ahead from any given initial condition:"
     )
     equation(doc,
         "T_hat(t + s*dt)  =  T_IC  +  tau * f_theta(x, y, [z,] tau, T_IC)",
-        note="tau = t/(s*dt) in [0,1]. At tau=0, output equals T_IC exactly — IC satisfied without an explicit loss term."
+        note="tau = t/(s*dt) in [0,1]. At tau=0, output equals T_IC exactly — IC is satisfied without a separate loss term."
     )
     para(doc,
-        "This guarantees the initial condition automatically. Skip=2 outperforms skip=1 "
-        "(L2: 0.108 vs 0.126) because the PINN smooths FEM step-to-step numerical noise."
+        "We found that skip=2 outperforms skip=1 (L2: 0.108 vs 0.126) because "
+        "our PINN smooths the step-to-step numerical noise present in the FEM output. "
+        "This was a counterintuitive finding: predicting further ahead actually gives better accuracy."
     )
 
     std_table(doc,
@@ -348,37 +350,42 @@ def build():
     # ── Section 3: Methods ──────────────────────────────────────────────────
     heading(doc, "3.  Training, NAS, and Level 9 Techniques")
     para(doc,
-        "Each PINN window is trained with Adam (30,000 epochs at Level 9). NAS search space: "
-        "layers 3–6, neurons/layer 64–160, activations {Tanh, GELU, SiLU, ReLU}. "
-        "Three NAS strategies are compared: Bayesian Optimisation (scikit-optimize), "
-        "NSGA-II and NSGA-III (pymoo), each evaluating ~500 architectures."
+        "We trained each PINN window with Adam (30,000 epochs at Level 9). "
+        "For Neural Architecture Search (NAS) we defined a search space of "
+        "layers 3–6, neurons/layer 64–160, and activations {Tanh, GELU, SiLU, ReLU}. "
+        "We compared three NAS strategies: Bayesian Optimisation (scikit-optimize), "
+        "NSGA-II and NSGA-III (pymoo), each evaluating ~500 architectures. "
+        "We found that NSGA-II consistently found the best accuracy/size trade-off."
     )
 
     heading(doc, "Fourier Feature Embedding  [Tancik et al., 2020]", level=2)
     para(doc,
-        "Standard MLPs suffer from spectral bias — they learn low-frequency patterns first, "
-        "missing the rapid early cooling (ΔT ≈ 200 °C in first 5 s). "
-        "We prepend a frozen random Fourier projection to the MLP input:"
+        "We noticed that our standard PINN converged slowly in the first 5 seconds of "
+        "the quench — the period with the fastest cooling (ΔT ≈ 200 °C). "
+        "This is the spectral bias problem: MLPs learn low-frequency patterns first. "
+        "To fix this, we prepended a frozen random Fourier projection to the MLP input:"
     )
     equation(doc,
         "gamma(v)  =  [ sin(2*pi*B*v) ,  cos(2*pi*B*v) ]",
-        note="B ~ N(0, sigma^2), frozen. Settings: n_fourier=64, sigma=1.0 → 128-dim encoding for (t,x,y)."
+        note="B ~ N(0, sigma^2), frozen at init. We used n_fourier=64, sigma=1.0 → 128-dim encoding for (t,x,y)."
     )
 
     heading(doc, "Self-Adaptive Loss Weights  [Wang et al., 2022]", level=2)
     para(doc,
-        "PINN loss terms differ by ~10⁴ in scale. Instead of fixed λ values we make weights "
-        "learnable: λ = softplus(w), trained jointly with the network (lower LR = 1e-4). "
-        "Final learned values (best model): λ_phys ≈ 0.48, λ_bc ≈ 9.28, λ_ic ≈ 9.28. "
-        "The optimiser automatically assigns 19× more weight to BC/IC than to the PDE residual."
+        "We observed that our three PINN loss terms (PDE, BC, IC) differ by ~10⁴ in scale, "
+        "making manual weight tuning unreliable. Instead of fixing λ values, we made them "
+        "learnable: λ = softplus(w), trained jointly with the network at a lower LR (1e-4). "
+        "Our best model converged to: λ_phys ≈ 0.48, λ_bc ≈ 9.28, λ_ic ≈ 9.28 — "
+        "the optimiser automatically learned to weight BC/IC 19× more than the PDE residual."
     )
 
     # ── Section 4: Level 8 Results (3D, 48 runs) ───────────────────────────
     heading(doc, "4.  Results: Level 8 — 3D Multi-Geometry (48 Runs)")
     para(doc,
-        "48 experiments: 4 domains × 3 NAS optimisers × 4 skip values. "
-        "Domains: Rectangular Prism (1.3×0.6×0.4 m), Cylinder (R=0.2 m, H=0.4 m), "
-        "Stacked Cubes, L-Shape. Training: AdamW with MCO adaptive weights (w_i = 1/σ_i²)."
+        "At Level 8 we extended our framework to four 3D geometries: Rectangular Prism "
+        "(1.3×0.6×0.4 m), Cylinder (R=0.2 m, H=0.4 m), Stacked Cubes, and L-Shape. "
+        "We ran 48 experiments (4 domains × 3 NAS optimisers × 4 skip values) "
+        "and used MCO adaptive weights (w_i = 1/σ_i²) during training."
     )
 
     mae_table(doc,
@@ -408,8 +415,8 @@ def build():
         os.path.join(L8, "fig8_3d_feasibility.png"),
         w_cm=15,
         cap=(
-            "Figure 1. 3D feasibility: PINN-predicted temperature fields vs. FEM reference "
-            "on the z-midplane for all four 3D domains (skip=1, best NAS architecture per domain). "
+            "Figure 1. Level 8 — 3D temperature fields we predicted vs. FEM reference "
+            "on the z-midplane for all four domains (skip=1, best NAS architecture per domain). "
             "Turbo colormap: blue = 20 °C, yellow = 540 °C."
         )
     )
@@ -417,10 +424,12 @@ def build():
     # ── Section 5: Level 9 Results (SA + Fourier) ──────────────────────────
     heading(doc, "5.  Results: Level 9 — SA-PINNs + Fourier Features (Best Result)")
     para(doc,
-        "Level 9 combines all three contributions in 2D and 3D, using the best NAS architecture "
-        "found per optimiser. Training: 30,000 Adam epochs, architecture from NAS search. "
-        "Best 2D result: L2 = 0.0137 — 9.2× better than FEM skip=1 (L2=0.126) — with "
-        "inference at 0.01 s vs. 184 s for FEM (18,400× speedup)."
+        "At Level 9 we combined all three contributions and ran experiments in both 2D and 3D "
+        "using the architectures found by NAS. We trained each model for 30,000 Adam epochs. "
+        "Our best 2D result (SA+Fourier, NSGA-II): L2 = 0.0137 — 9.2× better than FEM skip=1 "
+        "(L2=0.126) — with inference at 0.01 s vs. 184 s for FEM (18,400× speedup). "
+        "For 3D, we obtained L2 = 0.247 (Bayesian), which is weaker because we ran NAS in 2D; "
+        "running NAS directly in 3D is our next step."
     )
 
     std_table(doc,
@@ -446,41 +455,51 @@ def build():
         os.path.join(L9, "fig1_2d_comparison.png"),
         w_cm=15,
         cap=(
-            "Figure 2. Level 9 (SA+Fourier, NSGA-II, 2D): exact temperature field (left), "
-            "PINN prediction (centre), and absolute error map (right). "
-            "Largest errors near corners where boundary layer gradients peak."
+            "Figure 2. Level 9 2D result (SA+Fourier, NSGA-II): exact temperature field (left), "
+            "our PINN prediction (centre), and absolute error map (right). "
+            "Largest errors near corners where boundary layer gradients are steepest."
+        )
+    )
+    img(doc,
+        os.path.join(L9, "fig2_3d_comparison.png"),
+        w_cm=15,
+        cap=(
+            "Figure 3. Level 9 3D result (SA+Fourier, Bayesian): exact vs. PINN-predicted "
+            "temperature on the z-midplane. We achieved L2 = 0.247 in 3D; the gap to our "
+            "2D result (L2 = 0.014) shows that running NAS in 3D is the key next step."
         )
     )
 
     # ── Section 6: Conclusions ──────────────────────────────────────────────
     heading(doc, "6.  Conclusions")
     bullet(doc,
-        "Best accuracy (skip=1, 3D):  2.19 °C MAE on L-Shape with NSGA-II/III. "
+        "We achieved MAE = 2.19 °C on the L-Shape domain (skip=1, NSGA-II/III, 3D). "
         "All 3D domains achieve < 5.6 °C at skip=1."
     )
     bullet(doc,
-        "Practical optimum (skip=2):  52% FEM savings while keeping MAE < 11 °C "
-        "for all domains — recommended default."
+        "We found that skip=2 is the practical optimum: 52% FEM savings while keeping "
+        "MAE < 11 °C for all domains — we recommend this as the default setting."
     )
     bullet(doc,
-        "Best 2D result (Level 9, SA+Fourier, NSGA-II):  L2 = 0.0137, "
-        "9.2× better than FEM skip=1 baseline. Inference: 0.01 s vs. 184 s FEM."
+        "Our best 2D result (Level 9, SA+Fourier, NSGA-II): L2 = 0.0137, "
+        "9.2× better than FEM skip=1. We reduced inference time from 184 s to 0.01 s."
     )
     bullet(doc,
-        "Fourier embedding:  accelerates convergence in the high-gradient early phase "
-        "(0–5 s); critical for SA+Fourier to outperform SA-only."
+        "We added Fourier embedding to fix slow convergence in the high-gradient early phase "
+        "(0–5 s). Without it, SA-only gives L2 = 0.0151 — Fourier pushes it further to 0.0137."
     )
     bullet(doc,
-        "Self-adaptive weights:  converge to λ_bc ≈ 19·λ_phys automatically, "
-        "showing BC/IC satisfaction is more important than the PDE residual."
+        "Our self-adaptive weights converged to λ_bc ≈ 19·λ_phys — we learned that "
+        "satisfying the boundary and initial conditions matters far more than minimising "
+        "the PDE residual at collocation points."
     )
     bullet(doc,
-        "NAS finding:  NSGA-II finds the best accuracy/size trade-off (3 layers × 153 "
-        "neurons, 67 K params) — outperforming the larger Bayesian solution (111 K params)."
+        "We found NSGA-II gives the best trade-off (3 layers × 153 neurons, 67 K params) — "
+        "it outperformed the larger Bayesian solution (111 K params) in accuracy."
     )
     bullet(doc,
-        "Open problem:  3D results are weaker (L2 ≈ 0.25) because NAS was done in 2D. "
-        "Running NAS directly in 3D is the most impactful next step."
+        "Open problem: our 3D results are weaker (L2 ≈ 0.25) because we ran NAS in 2D. "
+        "We plan to run NAS directly in 3D as the most impactful next step."
     )
 
     # ── References ──────────────────────────────────────────────────────────
