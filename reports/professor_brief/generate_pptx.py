@@ -474,7 +474,7 @@ def slide_04_fem_reference(prs):
              l=7.95, t=1.37, w=5.05, h=0.36,
              fs=11, bold=True, color=C_WHITE,
              align=PP_ALIGN.CENTER)
-    add_text(sld, "(Source: Table 1 — Mortensen et al., 2026)",
+    add_text(sld, "(Source: Table 1 — D. Mortensen, G. Noorsumar, H.G. Fjaer, R. Babaei, P.E. Dronen (2026))",
              l=7.95, t=1.77, w=5.05, h=0.28,
              fs=9, italic=True, color=C_TEXT,
              align=PP_ALIGN.CENTER)
