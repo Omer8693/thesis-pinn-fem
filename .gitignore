@@ -36,9 +36,5 @@ env/
 DRAFT.md
 *.tmp
 
-# Note: .pdf, .pptx, .docx in reports/professor_brief/ ARE tracked (report outputs)
-
-# Report binary outputs (regenerated locally, not tracked in git)
+# Report outputs: .pptx and .docx are tracked; .pdf excluded (generate from Word)
 reports/professor_brief/*.pdf
-reports/professor_brief/*.pptx
-reports/professor_brief/*.docx
