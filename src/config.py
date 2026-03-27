@@ -24,7 +24,7 @@ NEURONS_MIN = 64
 NEURONS_MAX = 160
 
 # ─────────────────────────────────────────────────────────────
-# Mortensen 2026 — Proses Parametreleri
+# Mortensen_Noorsumar_Fjær_Babaei_Drønen_IntJAdvManufacturingTech_2026 — Proses Parametreleri
 # ─────────────────────────────────────────────────────────────
 T_INIT       = 540.0   # [°C] — SHT çıkış sıcaklığı (kohezyon)
 T_WATER_INIT = 20.0    # [°C] — quenching suyu başlangıç sıcaklığı
@@ -42,7 +42,7 @@ Y_MAX        = 0.6     # [m]  — subframe genişliği
 ALPHA = 1.75e-3        # [1/s] — 2D Robin BC temel mod soğuma katsayısı
 
 # ─────────────────────────────────────────────────────────────
-# Fiziksel Sabitler — A356 Alüminyum (Mortensen 2026)
+# Fiziksel Sabitler — A356 Alüminyum Mortensen_Noorsumar_Fjær_Babaei_Drønen_IntJAdvManufacturingTech_2026)
 # ─────────────────────────────────────────────────────────────
 K_THERMAL    = 150.0   # [W/mK]  — ısıl iletkenlik
 RHO_CP       = 2.4e6   # [J/m³K] — hacimsel ısı kapasitesi
