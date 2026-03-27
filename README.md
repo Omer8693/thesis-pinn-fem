@@ -1,18 +1,15 @@
 # NAS-PINNs: Neural Architecture Search for FEM Time-Step Acceleration
 
-**Author:** Omer Cetinkaya  
-**Year:** 2026  
-**Course:** IKT590-G 26V Master's Thesis  
+Author: Omer Cetinkaya  
+Supervisor: Prof.Turgay Celik
+Year: 2026  
+Course: IKT590-G 26V Master's Thesis  
 
----
-
-## Abstract
+# Abstract
 
 This repository presents a progressive, nine-level framework that investigates whether Neural Architecture Search (NAS) can identify Physics-Informed Neural Network (PINN) architectures capable of replacing intermediate Finite Element Method (FEM) time steps in transient thermal simulations. The physical problem is water quenching of an A356 aluminium alloy component — a process with high industrial relevance in automotive subframe manufacturing. Three NAS strategies are evaluated: Bayesian Optimisation, NSGA-II, and NSGA-III. The framework begins with a global single-shot predictor (Level 1) and culminates in self-adaptive PINNs with Fourier feature embedding (Level 9). The best result — L9 SA+Fourier (NSGA-II) — achieves **L2 = 0.014**, which is 9.2× better than the FEM skip=1 baseline and 18,400× faster at inference (≈ 0.01 s vs 184 s).
 
----
-
-## FEM Reference
+ # FEM Reference
 
 All FEM baseline values, material properties, and CMM distortion measurements come from:
 
@@ -21,9 +18,8 @@ All FEM baseline values, material properties, and CMM distortion measurements co
 > *The International Journal of Advanced Manufacturing Technology.*
 > https://doi.org/10.1007/s00170-026-17515-w
 
-We did **not** implement FEM. We used this paper's simulation data as ground truth.
+We didnot implement FEM. We used this paper's simulation data as ground truth.
 
----
 
 ## How the FEM Data Was Used in Our Code
 
@@ -34,7 +30,7 @@ We extracted three types of data from the paper and implemented them in our code
 We read the A356 aluminium flow stress parameters directly from **Table 1** of the paper and hard-coded them as interpolation tables in `src/physics_model.py`:
 
 ```python
-# Temperature reference points [°C] — from Table 1, Mortensen et al. (2026)
+# Temperature reference points [°C] — from Table 1, paper_baseline et al. (2026)
 A356_TEMPS = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550]
 A356_F     = [22.0, 21.5, 21.0, 20.0, 18.9, ...]   # Flow stress [MPa]
 A356_N     = [0.3, 0.3, 0.3, 0.3, 0.27, ...]         # Strain hardening exponent
@@ -66,7 +62,7 @@ We manually digitised the temperature histories from **Figures 7, 15–17** and 
 
 ```python
 # Example: temperature at 8 measurement points over 21 time steps
-# Digitised from Figure 17, Mortensen et al. (2026) — tolerance ±2 °C
+# Digitised from Figure 17, paper_baseline et al. (2026) — tolerance ±2 °C
 ```
 
 **Summary: nothing in our code runs FEM.** All physical behaviour is either encoded as the PDE loss in the PINN training, or used as digitised reference data for validation.
@@ -89,21 +85,14 @@ We manually digitised the temperature histories from **Figures 7, 15–17** and 
 
 **Governing PDE:**
 
-```
 ρ·cp · ∂T/∂t = k · ∇²T
-```
 
 **Boundary condition (Robin):**
 
-```
 -k · ∂T/∂n = h(T) · (T - T_water)
-```
-
----
 
 ## Repository Structure
 
-```
 thesis-pinn-fem/
 │
 ├── src/                          Core framework (NAS, PINN, trainers, physics)
@@ -227,7 +216,7 @@ Final learned values: λ_phys ≈ 0.48, λ_bc ≈ 9.28, λ_ic ≈ 9.28.
 ## References
 
 1. M. Raissi, P. Perdikaris, G.E. Karniadakis, "Physics-informed neural networks," J. Comput. Phys., 2019. DOI: 10.1016/j.jcp.2018.10.045
-2. D. Mortensen et al., "Mitigating distortions in cast automotive subframes," Int J Adv Manuf Technol, 2026. DOI: 10.1007/s00170-026-17515-w
+2. Mortensen_Noorsumar_Fjær_Babaei_Drønen_IntJAdvManufacturingTech_2026 et al., "Mitigating distortions in cast automotive subframes," Int J Adv Manuf Technol, 2026. DOI: 10.1007/s00170-026-17515-w
 3. M. Tancik et al., "Fourier Features Let Networks Learn High Frequency Functions," NeurIPS, 2020.
 4. S. Wang et al., "Understanding and Mitigating Gradient Flow Pathologies in PINNs," SIAM J. Sci. Comput., 2021.
 5. K. Deb et al., "NSGA-II," IEEE Trans. Evol. Comput., 2002. DOI: 10.1109/4235.996017
