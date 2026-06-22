@@ -19,16 +19,40 @@ from src.ts_trainer import train_window
 
 def _make_analytical_fn(t: float, device: torch.device) -> Callable:
     """
-    Analitik referans fonksiyonu — 2D Robin BC temel mod soğuma.
-    Level 1 ile aynı fizik: α = 1.75e-3 /s
-    T(t) = T_water + (T_init - T_water) · exp(-α·t)
+    2D analytical reference — first-mode Robin BC cooling solution.
+
+    Physics: K=150 W/mK, rho_cp=2.4e6 J/m3K, h=5000 W/m2K
+    Domain: Lx=1.3 m, Ly=0.6 m
+    Eigenvalues (mu * tan(mu * L_half) = h/K):
+        mu_x = 2.31 rad/m  (x-direction, L_half=0.65 m)
+        mu_y = 4.80 rad/m  (y-direction, L_half=0.30 m)
+    Decay rate: alpha = K * (mu_x^2 + mu_y^2) / rho_cp = 1.77e-3 /s
+
+    T(x, y, t) = T_w + (T_init - T_w)
+                 * cos(mu_x * (x - Lx/2))
+                 * cos(mu_y * (y - Ly/2))
+                 * exp(-alpha * t)
     """
-    alpha, T_water, T_init = 1.75e-3, 20.0, 540.0
-    T_val = T_water + (T_init - T_water) * np.exp(-alpha * t)
+    _K      = 150.0
+    _RHO_CP = 2.4e6
+    _H      = 5000.0
+    _T_W    = 20.0
+    _T_INIT = 540.0
+    _LX     = 1.3
+    _LY     = 0.6
+    _MU_X   = 2.31   # rad/m
+    _MU_Y   = 4.80   # rad/m
+    _ALPHA  = _K * (_MU_X**2 + _MU_Y**2) / _RHO_CP  # ~1.77e-3 /s
+
+    decay = float(np.exp(-_ALPHA * t))
 
     def fn(x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
-        # Analitik çözüm uzaydan bağımsız (0D soğuma modeli)
-        return torch.full_like(x, T_val)
+        x_c = x - _LX / 2.0
+        y_c = y - _LY / 2.0
+        return (_T_W + (_T_INIT - _T_W)
+                * torch.cos(torch.tensor(_MU_X, device=x.device) * x_c)
+                * torch.cos(torch.tensor(_MU_Y, device=x.device) * y_c)
+                * decay)
     return fn
 
 

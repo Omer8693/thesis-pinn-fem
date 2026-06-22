@@ -165,12 +165,35 @@ class QuenchingProblem(PINNProblem):
 
     def analytical_solution(self, coords: torch.Tensor) -> torch.Tensor:
         """
-        Basitleştirilmiş analitik soğuma yaklaşımı (tek boyutlu).
-        T(t) = T_water + (T_init − T_water)·exp(−α·t)
-        Proxy referans olarak kullanılır — gerçek FEM verisi için baseline_data.py.
+        2D analytical reference — first-mode Robin BC cooling solution.
+
+        coords: (N, 3) tensor — columns: [t, x, y]
+
+        Eigenvalues from mu * tan(mu * L_half) = h / K:
+            mu_x = 2.31 rad/m  (x, L_half = X_MAX/2 = 0.65 m)
+            mu_y = 4.80 rad/m  (y, L_half = Y_MAX/2 = 0.30 m)
+        Decay: alpha_2d = K * (mu_x^2 + mu_y^2) / rho_cp ≈ 1.77e-3 /s
+
+        T(x, y, t) = T_w + (T_init - T_w)
+                     * cos(mu_x * (x - X_MAX/2))
+                     * cos(mu_y * (y - Y_MAX/2))
+                     * exp(-alpha_2d * t)
         """
-        t = coords[:, 0:1]
-        return self.T_water + (self.T_init - self.T_water) * torch.exp(-ALPHA * t)
+        _MU_X    = 2.31    # rad/m
+        _MU_Y    = 4.80    # rad/m
+        _ALPHA2D = K_THERMAL * (_MU_X**2 + _MU_Y**2) / RHO_CP  # ~1.77e-3 /s
+
+        t   = coords[:, 0:1]
+        x   = coords[:, 1:2]
+        y   = coords[:, 2:3]
+        x_c = x - X_MAX / 2.0
+        y_c = y - Y_MAX / 2.0
+
+        return (self.T_water
+                + (self.T_init - self.T_water)
+                * torch.cos(torch.tensor(_MU_X, dtype=t.dtype, device=t.device) * x_c)
+                * torch.cos(torch.tensor(_MU_Y, dtype=t.dtype, device=t.device) * y_c)
+                * torch.exp(torch.tensor(-_ALPHA2D, dtype=t.dtype, device=t.device) * t))
 
     def make_loss_fn(self) -> Callable:
         """
@@ -323,10 +346,17 @@ class QuenchingProblem(PINNProblem):
                     coords = torch.stack([t_tensor, x_eval, y_eval], dim=1)
                     T_pred = model(coords).squeeze(-1).cpu().numpy()
                     T_pinn_mean.append(float(T_pred.mean()))
-                    # Analitik: T(t) = T_w + (T_0 - T_w) * exp(-ALPHA·t)
-                    # ALPHA = 2D Robin BC temel modu soğuma katsayısı (1.75e-3 /s)
-                    T_an = self.T_water + (self.T_init - self.T_water) * np.exp(-ALPHA * t_val.item())
-                    T_analytical.append(T_an)
+                    # 2D analytical reference: spatial mean over evaluation grid
+                    # T(x,y,t) = T_w + (T_init-T_w)*cos(mu_x*(x-Lx/2))*cos(mu_y*(y-Ly/2))*exp(-alpha_2d*t)
+                    _MU_X    = 2.31
+                    _MU_Y    = 4.80
+                    _ALPHA2D = K_THERMAL * (_MU_X**2 + _MU_Y**2) / RHO_CP
+                    x_c = (x_eval - X_MAX / 2.0).cpu().numpy()
+                    y_c = (y_eval - Y_MAX / 2.0).cpu().numpy()
+                    decay = np.exp(-_ALPHA2D * t_val.item())
+                    T_2d = (self.T_water + (self.T_init - self.T_water)
+                            * np.cos(_MU_X * x_c) * np.cos(_MU_Y * y_c) * decay)
+                    T_analytical.append(float(T_2d.mean()))
 
             T_pinn = np.array(T_pinn_mean)
             T_ref  = np.array(T_analytical)

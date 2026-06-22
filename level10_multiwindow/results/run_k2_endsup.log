@@ -1,0 +1,57 @@
+Device: cuda
+
+============================================================
+Full series MSWP | k_skip=2 | t=[0, 30]s | 31 steps | end_sup=True
+============================================================
+
+=== Segment [0.0 -> 2.0s]  k=2  dt_total=2.0s ===
+  MAE=42.318 deg C | T_pred=253.4 | T_fem=277.3 | train=16.1s
+
+=== Segment [2.0 -> 4.0s]  k=2  dt_total=2.0s ===
+  MAE=37.610 deg C | T_pred=238.1 | T_fem=260.1 | train=15.9s
+
+=== Segment [4.0 -> 6.0s]  k=2  dt_total=2.0s ===
+  MAE=40.590 deg C | T_pred=222.3 | T_fem=244.2 | train=16.1s
+
+=== Segment [6.0 -> 8.0s]  k=2  dt_total=2.0s ===
+  MAE=32.989 deg C | T_pred=244.6 | T_fem=262.2 | train=15.7s
+
+=== Segment [8.0 -> 10.0s]  k=2  dt_total=2.0s ===
+  MAE=37.069 deg C | T_pred=226.0 | T_fem=247.6 | train=15.8s
+
+=== Segment [10.0 -> 12.0s]  k=2  dt_total=2.0s ===
+  MAE=27.228 deg C | T_pred=253.8 | T_fem=257.9 | train=15.8s
+
+=== Segment [12.0 -> 14.0s]  k=2  dt_total=2.0s ===
+  MAE=31.841 deg C | T_pred=240.9 | T_fem=259.6 | train=16.1s
+
+=== Segment [14.0 -> 16.0s]  k=2  dt_total=2.0s ===
+  MAE=26.048 deg C | T_pred=234.8 | T_fem=240.6 | train=16.4s
+
+=== Segment [16.0 -> 18.0s]  k=2  dt_total=2.0s ===
+  MAE=35.011 deg C | T_pred=243.2 | T_fem=254.9 | train=16.5s
+
+=== Segment [18.0 -> 20.0s]  k=2  dt_total=2.0s ===
+  MAE=34.046 deg C | T_pred=257.9 | T_fem=273.8 | train=16.7s
+
+=== Segment [20.0 -> 22.0s]  k=2  dt_total=2.0s ===
+  MAE=28.130 deg C | T_pred=244.3 | T_fem=248.6 | train=16.1s
+
+=== Segment [22.0 -> 24.0s]  k=2  dt_total=2.0s ===
+  MAE=36.647 deg C | T_pred=239.9 | T_fem=258.4 | train=15.8s
+
+=== Segment [24.0 -> 26.0s]  k=2  dt_total=2.0s ===
+  MAE=29.491 deg C | T_pred=243.4 | T_fem=247.9 | train=15.7s
+
+=== Segment [26.0 -> 28.0s]  k=2  dt_total=2.0s ===
+  MAE=35.481 deg C | T_pred=226.3 | T_fem=242.1 | train=15.5s
+
+=== Segment [28.0 -> 30.0s]  k=2  dt_total=2.0s ===
+  MAE=39.014 deg C | T_pred=234.2 | T_fem=255.9 | train=15.8s
+
+Done: 248.2s | Mean MAE=34.234 deg C | Segments=15
+
+Saved: /home/coder/NAS-PINNS1/thesis-pinn-fem/level10_multiwindow/results/full_series_k2_endsup1.json
+Mean MAE:   34.234 deg C
+Wall time:  248.2s
+Segments:   15

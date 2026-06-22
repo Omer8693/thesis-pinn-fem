@@ -1,0 +1,12 @@
+{
+  "t_start": 5.0,
+  "t_end": 7.0,
+  "k_skip": 2,
+  "use_end_supervision": true,
+  "mae_sequential": 109.33717346191406,
+  "mae_mswp": 26.192684173583984,
+  "improvement_pct": 76.04411807599196,
+  "time_sequential_s": 15.947806596755981,
+  "time_mswp_s": 13.808762073516846,
+  "winner": "mswp"
+}

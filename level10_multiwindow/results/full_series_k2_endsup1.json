@@ -1,0 +1,168 @@
+{
+  "summary": {
+    "total_wall_time_s": 248.19142270088196,
+    "mean_mae": 34.234208806355795,
+    "n_segments": 15,
+    "k_skip": 2,
+    "use_end_supervision": true
+  },
+  "history": [
+    {
+      "t_start": 0.0,
+      "t_end": 0.0,
+      "source": "fem_ic",
+      "mae": 0.0,
+      "T_mean_pred": 249.68714904785156
+    },
+    {
+      "t_start": 0.0,
+      "t_end": 2.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 42.31801223754883,
+      "T_mean_pred": 253.4429168701172,
+      "T_mean_fem": 277.3457336425781,
+      "train_time_s": 16.13197922706604
+    },
+    {
+      "t_start": 2.0,
+      "t_end": 4.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 37.61028289794922,
+      "T_mean_pred": 238.1112060546875,
+      "T_mean_fem": 260.0654296875,
+      "train_time_s": 15.885074377059937
+    },
+    {
+      "t_start": 4.0,
+      "t_end": 6.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 40.58969497680664,
+      "T_mean_pred": 222.31370544433594,
+      "T_mean_fem": 244.2008056640625,
+      "train_time_s": 16.131269454956055
+    },
+    {
+      "t_start": 6.0,
+      "t_end": 8.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 32.98906326293945,
+      "T_mean_pred": 244.5952911376953,
+      "T_mean_fem": 262.15655517578125,
+      "train_time_s": 15.741873025894165
+    },
+    {
+      "t_start": 8.0,
+      "t_end": 10.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 37.06891632080078,
+      "T_mean_pred": 225.959228515625,
+      "T_mean_fem": 247.64031982421875,
+      "train_time_s": 15.846344470977783
+    },
+    {
+      "t_start": 10.0,
+      "t_end": 12.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 27.22797966003418,
+      "T_mean_pred": 253.82730102539062,
+      "T_mean_fem": 257.9022216796875,
+      "train_time_s": 15.750433444976807
+    },
+    {
+      "t_start": 12.0,
+      "t_end": 14.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 31.840808868408203,
+      "T_mean_pred": 240.90963745117188,
+      "T_mean_fem": 259.57745361328125,
+      "train_time_s": 16.128252744674683
+    },
+    {
+      "t_start": 14.0,
+      "t_end": 16.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 26.048038482666016,
+      "T_mean_pred": 234.79229736328125,
+      "T_mean_fem": 240.5512237548828,
+      "train_time_s": 16.437098503112793
+    },
+    {
+      "t_start": 16.0,
+      "t_end": 18.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 35.0107307434082,
+      "T_mean_pred": 243.1898956298828,
+      "T_mean_fem": 254.85386657714844,
+      "train_time_s": 16.48417019844055
+    },
+    {
+      "t_start": 18.0,
+      "t_end": 20.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 34.04613494873047,
+      "T_mean_pred": 257.92584228515625,
+      "T_mean_fem": 273.8401794433594,
+      "train_time_s": 16.655843257904053
+    },
+    {
+      "t_start": 20.0,
+      "t_end": 22.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 28.130443572998047,
+      "T_mean_pred": 244.30210876464844,
+      "T_mean_fem": 248.58297729492188,
+      "train_time_s": 16.10798978805542
+    },
+    {
+      "t_start": 22.0,
+      "t_end": 24.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 36.646888732910156,
+      "T_mean_pred": 239.89772033691406,
+      "T_mean_fem": 258.3852233886719,
+      "train_time_s": 15.808206796646118
+    },
+    {
+      "t_start": 24.0,
+      "t_end": 26.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 29.490707397460938,
+      "T_mean_pred": 243.42547607421875,
+      "T_mean_fem": 247.87437438964844,
+      "train_time_s": 15.746020555496216
+    },
+    {
+      "t_start": 26.0,
+      "t_end": 28.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 35.48122787475586,
+      "T_mean_pred": 226.2875518798828,
+      "T_mean_fem": 242.0631103515625,
+      "train_time_s": 15.496134757995605
+    },
+    {
+      "t_start": 28.0,
+      "t_end": 30.0,
+      "source": "pinn_wide",
+      "k": 2,
+      "mae": 39.01420211791992,
+      "T_mean_pred": 234.1691436767578,
+      "T_mean_fem": 255.90377807617188,
+      "train_time_s": 15.784754037857056
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "summary": {
+    "total_wall_time_s": 129.59448051452637,
+    "mean_mae": 36.19437599182129,
+    "n_segments": 10,
+    "k_skip": 3,
+    "use_end_supervision": false
+  },
+  "history": [
+    {
+      "t_start": 0.0,
+      "t_end": 0.0,
+      "source": "fem_ic",
+      "mae": 0.0,
+      "T_mean_pred": 249.68714904785156
+    },
+    {
+      "t_start": 0.0,
+      "t_end": 3.0,
+      "source": "pinn_wide",
+      "k": 3,
+      "mae": 31.975618362426758,
+      "T_mean_pred": 243.69593811035156,
+      "T_mean_fem": 254.70484924316406,
+      "train_time_s": 12.93345308303833
+    },
+    {
+      "t_start": 3.0,
+      "t_end": 6.0,
+      "source": "pinn_wide",
+      "k": 3,
+      "mae": 38.21235275268555,
+      "T_mean_pred": 244.45745849609375,
+      "T_mean_fem": 263.7888488769531,
+      "train_time_s": 13.450311422348022
+    },
+    {
+      "t_start": 6.0,
+      "t_end": 9.0,
+      "source": "pinn_wide",
+      "k": 3,
+      "mae": 32.668827056884766,
+      "T_mean_pred": 235.19406127929688,
+      "T_mean_fem": 253.91839599609375,
+      "train_time_s": 12.972164154052734
+    },
+    {
+      "t_start": 9.0,
+      "t_end": 12.0,
+      "source": "pinn_wide",
+      "k": 3,
+      "mae": 53.340736389160156,
+      "T_mean_pred": 199.11659240722656,
+      "T_mean_fem": 233.75265502929688,
+      "train_time_s": 12.823415517807007
+    },
+    {
+      "t_start": 12.0,
+      "t_end": 15.0,
+      "source": "pinn_wide",
+      "k": 3,
+      "mae": 32.21535110473633,
+      "T_mean_pred": 240.5198516845703,
+      "T_mean_fem": 254.82797241210938,
+      "train_time_s": 12.840571165084839
+    },
+    {
+      "t_start": 15.0,
+      "t_end": 18.0,
+      "source": "pinn_wide",
+      "k": 3,
+      "mae": 33.5439453125,
+      "T_mean_pred": 218.07395935058594,
+      "T_mean_fem": 235.8518524169922,
+      "train_time_s": 12.785737752914429
+    },
+    {
+      "t_start": 18.0,
+      "t_end": 21.0,
+      "source": "pinn_wide",
+      "k": 3,
+      "mae": 31.882028579711914,
+      "T_mean_pred": 223.80615234375,
+      "T_mean_fem": 237.54969787597656,
+      "train_time_s": 12.60658311843872
+    },
+    {
+      "t_start": 21.0,
+      "t_end": 24.0,
+      "source": "pinn_wide",
+      "k": 3,
+      "mae": 47.85318374633789,
+      "T_mean_pred": 220.9015350341797,
+      "T_mean_fem": 247.9647979736328,
+      "train_time_s": 12.689192771911621
+    },
+    {
+      "t_start": 24.0,
+      "t_end": 27.0,
+      "source": "pinn_wide",
+      "k": 3,
+      "mae": 30.685287475585938,
+      "T_mean_pred": 250.240234375,
+      "T_mean_fem": 262.6628723144531,
+      "train_time_s": 12.770966529846191
+    },
+    {
+      "t_start": 27.0,
+      "t_end": 30.0,
+      "source": "pinn_wide",
+      "k": 3,
+      "mae": 29.566429138183594,
+      "T_mean_pred": 237.52413940429688,
+      "T_mean_fem": 250.08615112304688,
+      "train_time_s": 12.64567255973816
+    }
+  ]
+}

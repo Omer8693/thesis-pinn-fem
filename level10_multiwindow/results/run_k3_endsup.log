@@ -1,0 +1,42 @@
+Device: cuda
+
+============================================================
+Full series MSWP | k_skip=3 | t=[0, 30]s | 31 steps | end_sup=True
+============================================================
+
+=== Segment [0.0 -> 3.0s]  k=3  dt_total=3.0s ===
+  MAE=40.746 deg C | T_pred=232.9 | T_fem=255.4 | train=17.2s
+
+=== Segment [3.0 -> 6.0s]  k=3  dt_total=3.0s ===
+  MAE=30.083 deg C | T_pred=242.9 | T_fem=248.9 | train=16.7s
+
+=== Segment [6.0 -> 9.0s]  k=3  dt_total=3.0s ===
+  MAE=25.863 deg C | T_pred=259.6 | T_fem=260.0 | train=16.8s
+
+=== Segment [9.0 -> 12.0s]  k=3  dt_total=3.0s ===
+  MAE=38.020 deg C | T_pred=241.5 | T_fem=256.9 | train=16.6s
+
+=== Segment [12.0 -> 15.0s]  k=3  dt_total=3.0s ===
+  MAE=34.223 deg C | T_pred=213.0 | T_fem=233.3 | train=16.8s
+
+=== Segment [15.0 -> 18.0s]  k=3  dt_total=3.0s ===
+  MAE=32.759 deg C | T_pred=218.9 | T_fem=233.4 | train=16.8s
+
+=== Segment [18.0 -> 21.0s]  k=3  dt_total=3.0s ===
+  MAE=28.235 deg C | T_pred=239.1 | T_fem=249.7 | train=16.9s
+
+=== Segment [21.0 -> 24.0s]  k=3  dt_total=3.0s ===
+  MAE=35.631 deg C | T_pred=228.2 | T_fem=245.5 | train=16.7s
+
+=== Segment [24.0 -> 27.0s]  k=3  dt_total=3.0s ===
+  MAE=30.859 deg C | T_pred=234.5 | T_fem=256.2 | train=16.5s
+
+=== Segment [27.0 -> 30.0s]  k=3  dt_total=3.0s ===
+  MAE=35.731 deg C | T_pred=224.2 | T_fem=242.4 | train=17.1s
+
+Done: 169.6s | Mean MAE=33.215 deg C | Segments=10
+
+Saved: /home/coder/NAS-PINNS1/thesis-pinn-fem/level10_multiwindow/results/full_series_k3_endsup1.json
+Mean MAE:   33.215 deg C
+Wall time:  169.6s
+Segments:   10

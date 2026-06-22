@@ -24,16 +24,16 @@
     "adam_epochs": 20000
   },
   "level5_adam_lbfgs": {
-    "L2_rel": 0.05541808337706535,
-    "MAE_C": 28.675471956918873,
-    "MaxErr_C": 36.61810302734375,
-    "adam_l2": 0.061470936983823776,
-    "lbfgs_l2_before": 0.061470936983823776,
-    "lbfgs_l2_after": 0.061470936983823776,
+    "L2_rel": 0.02577602669114879,
+    "MAE_C": 11.493432181222099,
+    "MaxErr_C": 20.646575927734375,
+    "adam_l2": 0.27873435616493225,
+    "lbfgs_l2_before": 0.27873435616493225,
+    "lbfgs_l2_after": 0.27873435616493225,
     "lbfgs_loss_before": NaN,
     "lbfgs_loss_after": NaN,
     "lbfgs_iters": 0,
-    "adam_time_s": 215.17728066444397,
+    "adam_time_s": 186.34785389900208,
     "lbfgs_time_s": 0.0
   },
   "training_config": {

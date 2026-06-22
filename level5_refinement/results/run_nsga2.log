@@ -1,0 +1,64 @@
+
+============================================================
+  Optimizer: NSGA2
+============================================================
+  Architecture: 3×153 tanh
+  Training: Adam(cosine LR 0.001→1e-05, 20000ep)
+  Parameters: 47,890  (fresh init — not loading Level 1 weights)
+
+  Phase 1 — Adam (20000 epochs, lr=0.001)
+    epoch   500/20000  loss=7.6885e+00  L2=0.7873  lr=9.98e-04
+    epoch  1000/20000  loss=8.0638e+00  L2=0.8872  lr=9.94e-04
+    epoch  1500/20000  loss=7.0899e+00  L2=0.8844  lr=9.86e-04
+    epoch  2000/20000  loss=7.4740e+00  L2=0.8627  lr=9.76e-04
+    epoch  2500/20000  loss=7.2876e+00  L2=0.8724  lr=9.62e-04
+    epoch  3000/20000  loss=6.1415e+00  L2=0.8979  lr=9.46e-04
+    epoch  3500/20000  loss=4.8605e+00  L2=0.6682  lr=9.27e-04
+    epoch  4000/20000  loss=5.1268e+00  L2=0.7206  lr=9.05e-04
+    epoch  4500/20000  loss=3.8514e+00  L2=0.6867  lr=8.81e-04
+    epoch  5000/20000  loss=3.4798e+00  L2=0.4883  lr=8.55e-04
+    epoch  5500/20000  loss=3.6189e+00  L2=0.7069  lr=8.26e-04
+    epoch  6000/20000  loss=2.7457e+00  L2=0.4335  lr=7.96e-04
+    epoch  6500/20000  loss=2.5630e+00  L2=0.4552  lr=7.64e-04
+    epoch  7000/20000  loss=2.9136e+00  L2=0.4806  lr=7.30e-04
+    epoch  7500/20000  loss=1.8879e+00  L2=0.2691  lr=6.94e-04
+    epoch  8000/20000  loss=2.0578e+00  L2=0.1729  lr=6.58e-04
+    epoch  8500/20000  loss=1.7948e+00  L2=0.3745  lr=6.21e-04
+    epoch  9000/20000  loss=1.9980e+00  L2=0.1680  lr=5.82e-04
+    epoch  9500/20000  loss=2.6819e+00  L2=0.1547  lr=5.44e-04
+    epoch 10000/20000  loss=1.5480e+00  L2=0.1553  lr=5.05e-04
+    epoch 10500/20000  loss=1.6883e+00  L2=0.1610  lr=4.66e-04
+    epoch 11000/20000  loss=1.8201e+00  L2=0.2503  lr=4.28e-04
+    epoch 11500/20000  loss=1.2211e+00  L2=0.1963  lr=3.89e-04
+    epoch 12000/20000  loss=1.5478e+00  L2=0.1964  lr=3.52e-04
+    epoch 12500/20000  loss=1.1085e+00  L2=0.2148  lr=3.16e-04
+    epoch 13000/20000  loss=1.1102e+00  L2=0.2287  lr=2.80e-04
+    epoch 13500/20000  loss=1.2782e+00  L2=0.2397  lr=2.46e-04
+    epoch 14000/20000  loss=1.3650e+00  L2=0.2347  lr=2.14e-04
+    epoch 14500/20000  loss=1.7744e+00  L2=0.2455  lr=1.84e-04
+    epoch 15000/20000  loss=1.0732e+00  L2=0.2531  lr=1.55e-04
+    epoch 15500/20000  loss=1.0945e+00  L2=0.2616  lr=1.29e-04
+    epoch 16000/20000  loss=9.7365e-01  L2=0.2675  lr=1.05e-04
+    epoch 16500/20000  loss=2.1517e+00  L2=0.2704  lr=8.29e-05
+    epoch 17000/20000  loss=1.0551e+00  L2=0.2721  lr=6.40e-05
+    epoch 17500/20000  loss=1.2505e+00  L2=0.2731  lr=4.77e-05
+    epoch 18000/20000  loss=8.6375e-01  L2=0.2759  lr=3.42e-05
+    epoch 18500/20000  loss=1.1136e+00  L2=0.2764  lr=2.37e-05
+    epoch 19000/20000  loss=1.4363e+00  L2=0.2775  lr=1.61e-05
+    epoch 19500/20000  loss=1.1642e+00  L2=0.2781  lr=1.15e-05
+    epoch 20000/20000  loss=9.0873e-01  L2=0.2787  lr=1.00e-05
+  Adam done: 186s  |  L2=0.2787
+
+  Saved: /home/coder/NAS-PINNS1/thesis-pinn-fem/level5_refinement/results/nsga2/model_lbfgs.pt
+  Saved: /home/coder/NAS-PINNS1/thesis-pinn-fem/level5_refinement/results/nsga2/comparison.json
+  Saved: /home/coder/NAS-PINNS1/thesis-pinn-fem/level5_refinement/results/nsga2/refinement_log.json
+
+====================================================================
+  LEVEL 5 — Adam(20000ep) + L-BFGS(5000it) SUMMARY
+====================================================================
+  Optimizer     L1 Adam-only L2    L5 Adam+LBFGS L2    Gain      Time
+  ────────────  ─────────────────  ──────────────────  ────────  ────────
+  nsga2         0.2517             0.0258              9.76    ×  186s
+
+  Saved: /home/coder/NAS-PINNS1/thesis-pinn-fem/level5_refinement/results/level5_summary.json
+  Total time: 188s
